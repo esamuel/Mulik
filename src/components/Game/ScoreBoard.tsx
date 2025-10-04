@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import type { Team, TeamColor } from '../../types/game.types';
+import type { Team, TeamColor, Player } from '../../types/game.types';
 
 interface ScoreBoardProps {
   teams: Team[];
   currentTeam?: TeamColor;
+  players?: Record<string, Player>; // Add players to count correctly
   isCompact?: boolean;
   showProgress?: boolean;
   maxScore?: number;
@@ -15,12 +16,20 @@ interface ScoreBoardProps {
 const ScoreBoard: React.FC<ScoreBoardProps> = ({
   teams,
   currentTeam,
+  players = {},
   isCompact = false,
   showProgress = true,
   maxScore = 100,
   className = '',
 }) => {
   const { t } = useTranslation();
+
+  // Helper function to count actual players in a team
+  const getPlayerCount = (team: Team): number => {
+    if (!team.players || !Array.isArray(team.players)) return 0;
+    // Count how many player IDs in team.players actually exist in players object
+    return team.players.filter(playerId => players[playerId]).length;
+  };
 
   const teamConfig = {
     red: { color: '#EF4444', emoji: '🔴', bg: 'from-red-500 to-red-600', light: 'bg-red-50' },
@@ -71,7 +80,7 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
 
           return (
             <motion.div
-              key={team.id}
+              key={team.color}
               className={`
                 flex items-center space-x-2 px-3 py-2 rounded-lg shadow-sm
                 ${isCurrentTeam ? `bg-gradient-to-r ${config.bg} text-white` : config.light}
@@ -138,7 +147,7 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
 
           return (
             <motion.div
-              key={team.id}
+              key={team.color}
               className={`
                 relative p-4 rounded-xl border-2 transition-all duration-300
                 ${isCurrentTeam 
@@ -170,7 +179,7 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
                       {team.name}
                     </h4>
                     <p className={`text-sm ${isCurrentTeam ? 'text-white opacity-90' : 'text-gray-500'}`}>
-                      {team.players.length} {t('game.players', 'players')}
+                      {getPlayerCount(team)} {t('game.players', 'players')}
                     </p>
                   </div>
                 </div>

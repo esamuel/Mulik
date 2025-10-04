@@ -269,6 +269,7 @@ const GamePage: React.FC = () => {
             <ScoreBoard
               teams={Object.values(teams)}
               currentTeam={currentTeam}
+              players={players}
               isCompact={false}
               showProgress={true}
               maxScore={100}
@@ -334,6 +335,7 @@ const GamePage: React.FC = () => {
             <ScoreBoard
               teams={Object.values(teams)}
               currentTeam={currentTeam}
+              players={players}
               isCompact={true}
               showProgress={false}
             />
