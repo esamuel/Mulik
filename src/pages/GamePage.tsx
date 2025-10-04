@@ -87,6 +87,7 @@ const GamePage: React.FC = () => {
   const [isCardRevealed, setIsCardRevealed] = useState(false);
   const [clueNumber, setClueNumber] = useState(1);
   const [showBoard, setShowBoard] = useState(false);
+  const [isTimeUp, setIsTimeUp] = useState(false); // Track if timer has ended
 
   const language = i18n.language as Language;
   const currentTeamData = currentTeam ? teams[currentTeam] : undefined;
@@ -195,7 +196,17 @@ const GamePage: React.FC = () => {
 
   const handleNextTurn = () => {
     setTurnSummary(null);
+    setIsTimeUp(false); // Reset timer flag for next turn
     drawCard(); // Start new turn with new card
+  };
+
+  const handleTimerComplete = () => {
+    console.log('⏰ Time is up! Disabling buttons...');
+    setIsTimeUp(true);
+    // Automatically end turn when time runs out
+    setTimeout(() => {
+      endTurn();
+    }, 1000); // Give 1 second to see "TIME UP" message
   };
 
   const endTurn = async () => {
@@ -281,7 +292,7 @@ const GamePage: React.FC = () => {
             <div className="flex justify-center">
               <Timer
                 duration={gameSettings.turnDuration}
-                onComplete={() => endTurn()}
+                onComplete={handleTimerComplete}
                 size="large"
               />
             </div>
@@ -298,19 +309,19 @@ const GamePage: React.FC = () => {
             {/* Action Buttons */}
             <ActionButtons
               onCorrect={() => {
-                console.log('🔘 Correct button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading);
+                console.log('🔘 Correct button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
                 handleCorrect();
               }}
               onPass={() => {
-                console.log('🔘 Pass button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading);
+                console.log('🔘 Pass button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
                 handlePassAction();
               }}
               onSkip={() => {
-                console.log('🔘 Skip button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading);
+                console.log('🔘 Skip button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
                 handleSkipAction();
               }}
               onEndTurn={endTurn}
-              disabled={!isCardRevealed || gameFlowLoading}
+              disabled={!isCardRevealed || gameFlowLoading || isTimeUp}
               turnMode="manual"
               isCurrentPlayerTurn={isCurrentPlayerTurn}
               currentTeamName={currentTeamData?.name}
