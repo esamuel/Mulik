@@ -85,7 +85,7 @@ const GamePage: React.FC = () => {
   const [turnSummary, setTurnSummary] = useState<any>(null);
   const [gameFlowLoading] = useState(false); // TODO: Implement loading states
   const [isCardRevealed, setIsCardRevealed] = useState(false);
-  const [clueNumber, setClueNumber] = useState(1);
+  const [clueNumber, setClueNumber] = useState(1); // Still track for UI, but use boardBasedClueNumber for actual clue
   const [showBoard, setShowBoard] = useState(false);
   const [isTimeUp, setIsTimeUp] = useState(false); // Track if timer has ended
 
@@ -93,6 +93,16 @@ const GamePage: React.FC = () => {
   const currentTeamData = currentTeam ? teams[currentTeam] : undefined;
   const currentPlayer = currentTurn ? players[currentTurn.speakerId] : undefined;
   const isCurrentPlayerTurn = currentPlayer?.team === currentTeam;
+
+  // Calculate clue number based on team's board position
+  // Clue number = (position % 8) + 1, so position 0-7 = clue 1-8, position 8-15 = clue 1-8, etc.
+  const calculateClueNumber = (position: number): number => {
+    if (position === 0) return 1; // Start position
+    return ((position - 1) % 8) + 1;
+  };
+
+  // Get the clue number for current team based on their board position
+  const boardBasedClueNumber = currentTeamData ? calculateClueNumber(currentTeamData.position) : 1;
 
   // Initialize game on mount
   useEffect(() => {
@@ -114,10 +124,11 @@ const GamePage: React.FC = () => {
       console.log('🎴 Card loaded, revealing...', currentCard);
       console.log('📝 Card clues:', currentCard.clues);
       console.log('📂 Card category:', currentCard.category);
+      console.log(`🎯 Clue number based on board position: ${boardBasedClueNumber}`);
       
       // Reset state first
       setIsCardRevealed(false);
-      setClueNumber(1);
+      // DON'T reset clue number - it's based on board position!
       
       // Then reveal after delay
       const timer = setTimeout(() => {
@@ -127,14 +138,12 @@ const GamePage: React.FC = () => {
       
       return () => clearTimeout(timer);
     }
-  }, [currentCard?.id]);
+  }, [currentCard?.id, boardBasedClueNumber]);
 
   const handleCorrect = async () => {
-    const totalClues = currentCard?.clues?.length || 8;
     console.log('✅ Correct button clicked!', { 
-      clueNumber, 
-      totalClues,
-      willDrawNewCard: clueNumber >= totalClues,
+      boardBasedClueNumber, 
+      teamPosition: currentTeamData?.position,
       currentCard 
     });
     
@@ -152,37 +161,25 @@ const GamePage: React.FC = () => {
       }
     }
     
-    // Move to next clue or draw new card
-    if (clueNumber < totalClues) {
-      console.log(`➡️ Moving to clue ${clueNumber + 1}/${totalClues}`);
-      setClueNumber(prev => prev + 1);
-    } else {
-      console.log(`📦 All ${totalClues} clues completed! Drawing new card...`);
-      // Draw new card immediately
-      const newCard = drawCard();
-      console.log('🆕 New card drawn:', newCard?.id);
-      setClueNumber(1); // Reset to first clue for new card
-    }
+    // NEW RULE: Always draw a new card when guessed correctly
+    // The clue number stays the same (based on board position)
+    console.log(`📦 Word guessed! Drawing new card with same clue number (${boardBasedClueNumber})...`);
+    const newCard = drawCard();
+    console.log('🆕 New card drawn:', newCard?.id);
   };
 
   const handlePassAction = async () => {
-    console.log('⏭️ Pass button clicked!', { clueNumber, currentCard });
+    console.log('⏭️ Pass button clicked!', { boardBasedClueNumber, currentCard });
     markCardPassed();
-    // Move to next clue
-    const totalClues = currentCard?.clues?.length || 8;
-    if (clueNumber < totalClues) {
-      setClueNumber(prev => prev + 1);
-    } else {
-      drawCard();
-      setClueNumber(1);
-    }
+    // NEW RULE: Pass also draws a new card (same clue number based on position)
+    console.log(`📦 Passed! Drawing new card with same clue number (${boardBasedClueNumber})...`);
+    drawCard();
   };
 
   const handleSkipAction = async () => {
     console.log('⏩ Skip button clicked!', { currentCard });
     markCardPassed();
     drawCard(); // Skip to new card
-    setClueNumber(1);
   };
 
   const handlePauseToggle = () => {
@@ -335,7 +332,7 @@ const GamePage: React.FC = () => {
             {/* Game Card */}
             <GameCard
               card={currentCard || undefined}
-              clueNumber={clueNumber}
+              clueNumber={boardBasedClueNumber}
               language={language}
               isRevealed={isCardRevealed}
               isFlipping={gameFlowLoading}
