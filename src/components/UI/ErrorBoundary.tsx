@@ -1,4 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
 interface Props {
@@ -87,7 +88,7 @@ class ErrorBoundary extends Component<Props, State> {
             </motion.p>
 
             {/* Error Details (Development only) */}
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {import.meta.env.DEV && this.state.error && (
               <motion.details
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
