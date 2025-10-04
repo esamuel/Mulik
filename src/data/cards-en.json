@@ -1,0 +1,264 @@
+{
+  "cards": [
+    {
+      "id": "001",
+      "category": "general",
+      "difficulty": "easy",
+      "clues": [
+        "Phone",
+        "Laptop",
+        "Book",
+        "Ball",
+        "Guitar",
+        "Watch"
+      ]
+    },
+    {
+      "id": "002",
+      "category": "general",
+      "difficulty": "easy",
+      "clues": [
+        "Chair",
+        "Table",
+        "Bed",
+        "Closet",
+        "Mirror",
+        "Lamp"
+      ]
+    },
+    {
+      "id": "003",
+      "category": "general",
+      "difficulty": "medium",
+      "clues": [
+        "Umbrella",
+        "Glasses",
+        "Bag",
+        "Keys",
+        "Wallet",
+        "Necklace"
+      ]
+    },
+    {
+      "id": "004",
+      "category": "general",
+      "difficulty": "medium",
+      "clues": [
+        "Washing Machine",
+        "Refrigerator",
+        "Oven",
+        "Dishwasher",
+        "Vacuum Cleaner",
+        "Microwave"
+      ]
+    },
+    {
+      "id": "005",
+      "category": "general",
+      "difficulty": "hard",
+      "clues": [
+        "Electric Meter",
+        "Fire Hydrant",
+        "Alarm System",
+        "Emergency Switch",
+        "Smoke Detector",
+        "Security Camera"
+      ]
+    },
+    {
+      "id": "006",
+      "category": "movies",
+      "difficulty": "easy",
+      "clues": [
+        "Titanic",
+        "Harry Potter",
+        "Lord of the Rings",
+        "Lion King",
+        "Avatar",
+        "Gladiator"
+      ]
+    },
+    {
+      "id": "007",
+      "category": "movies",
+      "difficulty": "medium",
+      "clues": [
+        "Matrix",
+        "Indiana Jones",
+        "Star Wars",
+        "Back to the Future",
+        "Jurassic Park",
+        "Terminator"
+      ]
+    },
+    {
+      "id": "008",
+      "category": "movies",
+      "difficulty": "hard",
+      "clues": [
+        "Schindler's List",
+        "Citizen Kane",
+        "Casablanca",
+        "The Godfather",
+        "Pulp Fiction",
+        "Seven"
+      ]
+    },
+    {
+      "id": "009",
+      "category": "places",
+      "difficulty": "easy",
+      "clues": [
+        "Paris",
+        "London",
+        "New York",
+        "Tokyo",
+        "Rome",
+        "Berlin"
+      ]
+    },
+    {
+      "id": "010",
+      "category": "places",
+      "difficulty": "medium",
+      "clues": [
+        "Egypt",
+        "Greece",
+        "Thailand",
+        "Brazil",
+        "Australia",
+        "Canada"
+      ]
+    },
+    {
+      "id": "011",
+      "category": "places",
+      "difficulty": "hard",
+      "clues": [
+        "Madagascar",
+        "Botswana",
+        "Kyrgyzstan",
+        "Moldova",
+        "Vanuatu",
+        "Palau"
+      ]
+    },
+    {
+      "id": "012",
+      "category": "food",
+      "difficulty": "easy",
+      "clues": [
+        "Pizza",
+        "Hamburger",
+        "Pasta",
+        "Salad",
+        "Soup",
+        "Bread"
+      ]
+    },
+    {
+      "id": "013",
+      "category": "food",
+      "difficulty": "medium",
+      "clues": [
+        "Sushi",
+        "Falafel",
+        "Hummus",
+        "Shakshuka",
+        "Malawach",
+        "Jachnun"
+      ]
+    },
+    {
+      "id": "014",
+      "category": "food",
+      "difficulty": "hard",
+      "clues": [
+        "Croissant",
+        "Ratatouille",
+        "Bouillabaisse",
+        "Confit",
+        "Bisque",
+        "Mole"
+      ]
+    },
+    {
+      "id": "015",
+      "category": "animals",
+      "difficulty": "easy",
+      "clues": [
+        "Dog",
+        "Cat",
+        "Elephant",
+        "Lion",
+        "Giraffe",
+        "Monkey"
+      ]
+    },
+    {
+      "id": "016",
+      "category": "animals",
+      "difficulty": "medium",
+      "clues": [
+        "Dolphin",
+        "Penguin",
+        "Kangaroo",
+        "Zebra",
+        "Hippopotamus",
+        "Rhinoceros"
+      ]
+    },
+    {
+      "id": "017",
+      "category": "animals",
+      "difficulty": "hard",
+      "clues": [
+        "Axolotl",
+        "Quetzal",
+        "Tapir",
+        "Okapi",
+        "Pangolin",
+        "Narwhal"
+      ]
+    },
+    {
+      "id": "018",
+      "category": "technology",
+      "difficulty": "easy",
+      "clues": [
+        "Computer",
+        "Mobile Phone",
+        "Television",
+        "Radio",
+        "Camera",
+        "Printer"
+      ]
+    },
+    {
+      "id": "019",
+      "category": "technology",
+      "difficulty": "medium",
+      "clues": [
+        "Robot",
+        "Drone",
+        "Virtual Reality",
+        "Artificial Intelligence",
+        "Blockchain",
+        "Cloud Computing"
+      ]
+    },
+    {
+      "id": "020",
+      "category": "technology",
+      "difficulty": "hard",
+      "clues": [
+        "Quantum Computing",
+        "Neuromorphic",
+        "Bioinformatics",
+        "Cryptography",
+        "Genetic Algorithm",
+        "Machine Learning"
+      ]
+    }
+  ]
+}

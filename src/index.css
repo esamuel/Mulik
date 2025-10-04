@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* MULIK Theme Classes */
+.mulik-gradient {
+  background: linear-gradient(135deg, #d946ef 0%, #c026d3 50%, #a21caf 100%);
+}
+
+.mulik-text-gradient {
+  background: linear-gradient(135deg, #d946ef 0%, #c026d3 50%, #a21caf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mulik-button-primary {
+  @apply bg-gradient-to-r from-mulik-primary-500 to-mulik-primary-600 hover:from-mulik-primary-600 hover:to-mulik-primary-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
+}
+
+.mulik-button-secondary {
+  @apply bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl hover:bg-white/20 transform hover:scale-105 transition-all duration-200;
+}
+
+.mulik-card {
+  @apply bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-8;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  font-family: 'Noto Sans Hebrew', Arial, sans-serif;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* Custom Slider Styles */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d946ef 0%, #c026d3 100%);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
+}
+
+.slider::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d946ef 0%, #c026d3 100%);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
+}
+
+.slider::-webkit-slider-track {
+  background: linear-gradient(to right, #d946ef 0%, #c026d3 100%);
+  border-radius: 5px;
+}
+
+.slider::-moz-range-track {
+  background: linear-gradient(to right, #d946ef 0%, #c026d3 100%);
+  border-radius: 5px;
+}
+
+/* Theme Classes */
+.theme-modern {
+  --primary-gradient: linear-gradient(135deg, #d946ef 0%, #c026d3 50%, #a21caf 100%);
+}
+
+.theme-cartoon {
+  --primary-gradient: linear-gradient(135deg, #fbbf24 0%, #f472b6 50%, #a855f7 100%);
+}
