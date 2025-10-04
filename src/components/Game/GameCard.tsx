@@ -127,17 +127,13 @@ const GameCard: React.FC<GameCardProps> = ({
         >
           <div className="w-full h-full bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border-4 border-gray-200 p-6 flex flex-col">
             
-            {/* Category Badge */}
+            {/* Clue Progress Indicator */}
             <motion.div
-              className="flex justify-between items-center mb-4"
+              className="flex justify-center items-center mb-4"
               variants={contentVariants}
               initial="hidden"
               animate={isRevealed ? 'visible' : 'hidden'}
             >
-              <div className="bg-purple-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                {getCategoryName()}
-              </div>
-              
               {/* Clue Number Indicator */}
               <div className="flex items-center space-x-1">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
@@ -168,6 +164,11 @@ const GameCard: React.FC<GameCardProps> = ({
               animate={isRevealed ? 'visible' : 'hidden'}
             >
               <div className="text-center">
+                {/* Instruction for speaker */}
+                <div className="text-sm text-gray-500 mb-4 font-medium">
+                  {language === 'he' ? '👤 רמז למסביר בלבד' : '👤 Clue for speaker only'}
+                </div>
+                
                 <motion.h2
                   className={`font-bold text-gray-800 leading-tight ${
                     language === 'he' ? 'text-right' : 'text-left'
