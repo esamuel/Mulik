@@ -21,11 +21,11 @@ const LobbyPage: React.FC = () => {
 
   const [currentPlayerId] = useState(() => {
     // Get or generate current player ID
-    const stored = localStorage.getItem('mulik-player-id');
+    const stored = localStorage.getItem('mulik_player_id');
     if (stored) return stored;
     
     const newId = `player-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    localStorage.setItem('mulik-player-id', newId);
+    localStorage.setItem('mulik_player_id', newId);
     return newId;
   });
 

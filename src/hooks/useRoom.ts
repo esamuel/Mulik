@@ -121,12 +121,13 @@ export const useRoom = (roomCode: string | null): UseRoomReturn => {
       throw new Error('Room not loaded');
     }
 
-    // Check if all players are ready
+    // Check if all players are ready (skip in debug mode)
+    const skipReadyCheck = import.meta.env.VITE_SKIP_READY_CHECK === 'true';
     const allReady = Object.values(room.players).every(
       (player) => player.isReady || player.isHost
     );
 
-    if (!allReady) {
+    if (!skipReadyCheck && !allReady) {
       throw new Error('Not all players are ready');
     }
 

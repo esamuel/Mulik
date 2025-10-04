@@ -6,6 +6,7 @@ import { validateRoomCode, formatRoomCode, cleanRoomCode } from '../utils/roomCo
 import { joinRoom } from '../services/roomService';
 import { isFirebaseAvailable } from '../services/firebase';
 import { useToast } from '../components/UI/Toast';
+import QRCodeScanner from '../components/UI/QRCodeScanner';
 import type { Player } from '../types/game.types';
 
 type JoinMethod = 'code' | 'qr' | 'link';
@@ -22,6 +23,7 @@ const JoinRoomPage: React.FC = () => {
   const [activeMethod, setActiveMethod] = useState<JoinMethod>('code');
   const [isJoining, setIsJoining] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; room?: string }>({});
+  const [showQRScanner, setShowQRScanner] = useState(false);
 
   const isRTL = i18n.language === 'he';
 
@@ -41,6 +43,7 @@ const JoinRoomPage: React.FC = () => {
 
   // Validate and format room code input
   const handleRoomCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Remove all non-alphanumeric characters and convert to uppercase
     let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     
     // Limit to 6 characters
@@ -144,10 +147,23 @@ const JoinRoomPage: React.FC = () => {
     }
   };
 
+  // QR Scanner handlers
   const handleScanQR = () => {
-    // TODO: Implement QR scanning with html5-qrcode
-    showToast('QR Scanner will be implemented', 'info');
+    setShowQRScanner(true);
   };
+
+  const handleQRScanResult = (scannedCode: string) => {
+    setRoomCode(scannedCode);
+    setActiveMethod('code');
+    setShowQRScanner(false);
+    showToast('QR code scanned successfully!', 'success');
+  };
+
+  const handleQRScanError = (error: string) => {
+    console.error('QR scan error:', error);
+    showToast('Failed to scan QR code', 'error');
+  };
+
 
   const handleBack = () => {
     navigate('/');
@@ -405,6 +421,14 @@ const JoinRoomPage: React.FC = () => {
           </motion.div>
         </div>
       </main>
+
+      {/* QR Code Scanner */}
+      <QRCodeScanner
+        isOpen={showQRScanner}
+        onScan={handleQRScanResult}
+        onError={handleQRScanError}
+        onClose={() => setShowQRScanner(false)}
+      />
     </div>
   );
 };

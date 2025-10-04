@@ -26,16 +26,17 @@ const GameCard: React.FC<GameCardProps> = ({
 
   // Get the clue text based on language and clue number
   const getClueText = (): string => {
-    if (!card) return '';
+    if (!card || !card.clues || card.clues.length === 0) return '';
     
-    const clues = language === 'he' ? card.cluesHe : card.cluesEn;
-    return clues[clueNumber - 1] || clues[0] || '';
+    // Use the clues array (cards are language-specific, loaded based on current language)
+    return card.clues[clueNumber - 1] || card.clues[0] || '';
   };
 
   // Get category display name
   const getCategoryName = (): string => {
-    if (!card) return '';
-    return language === 'he' ? card.categoryHe : card.categoryEn;
+    if (!card || !card.category) return '';
+    // Category is already in the correct language based on which card set was loaded
+    return card.category;
   };
 
   // Card flip variants
@@ -76,7 +77,10 @@ const GameCard: React.FC<GameCardProps> = ({
       {/* Card Container */}
       <motion.div
         className="relative w-full h-64 md:h-80"
-        style={{ perspective: '1000px' }}
+        style={{ 
+          perspective: '1000px',
+          transformStyle: 'preserve-3d'
+        }}
         initial="front"
         animate={isRevealed ? 'back' : 'front'}
         variants={cardVariants}
@@ -117,6 +121,7 @@ const GameCard: React.FC<GameCardProps> = ({
           className="absolute inset-0 w-full h-full backface-hidden"
           style={{
             backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
           }}
         >

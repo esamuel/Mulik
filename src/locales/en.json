@@ -216,18 +216,11 @@
     "preview": "Preview"
   },
   "help": {
-    "title": "Game Help & Rules",
+    "title": "Game Help",
     "howToPlay": "How to Play",
     "specialSpaces": "Special Spaces",
     "scoring": "Scoring",
     "tips": "Tips & Tricks",
-    "objective": "Objective",
-    "objectiveDesc": "Be the first team to reach the end of the spiral board by guessing cards correctly!",
-    "teams": "Teams",
-    "teamsDesc": "2-4 teams with 1-6 players each. Take turns explaining cards to your team.",
-    "timer": "Timer",
-    "timerDesc": "Each turn lasts 60 seconds. Explain as many cards as possible!",
-    "cards": "Cards",
     "cardsDesc": "Each card has 3 clues. Start with clue 1, reveal more if needed.",
     "actions": "Actions",
     "actionsDesc": "Got It = move forward, Pass = no penalty, Skip = lose movement",
@@ -288,5 +281,16 @@
     "close": "Close",
     "loading": "Loading...",
     "tagline": "The Fast-Talk Challenge"
+  },
+  "scanner": {
+    "title": "Scan QR Code",
+    "requesting": "Requesting camera access...",
+    "permissionDenied": "Camera access denied",
+    "permissionHelp": "Please allow camera access in your browser settings and try again.",
+    "retry": "Try Again",
+    "scanning": "Point your camera at a QR code",
+    "starting": "Starting camera...",
+    "manualOption": "Having trouble? Enter room code manually",
+    "enterManually": "Enter Code Manually"
   }
 }

@@ -12,7 +12,11 @@
  *   npx tsx scripts/setupFirebase.ts
  */
 
+import { config } from 'dotenv';
 import { initializeApp } from 'firebase/app';
+
+// Load environment variables from .env file
+config();
 import { getFirestore, doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { getDatabase, ref, set } from 'firebase/database';
 

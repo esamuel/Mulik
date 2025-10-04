@@ -70,47 +70,64 @@ const GamePage: React.FC = () => {
     }
   }, [roomCode, currentCard, isCurrentPlayerTurn, navigate, drawCard]);
 
-  // Handle card reveal
-  useEffect(() => {
-    if (currentCard && !isCardRevealed) {
-      const timer = setTimeout(() => {
-        setIsCardRevealed(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [currentCard, isCardRevealed]);
-
-  // Reset card state when new card is drawn
+  // Handle card reveal - runs when card ID changes
   useEffect(() => {
     if (currentCard) {
+      console.log('🎴 Card loaded, revealing...', currentCard);
+      console.log('📝 Card clues:', currentCard.clues);
+      console.log('📂 Card category:', currentCard.category);
+      
+      // Reset state first
       setIsCardRevealed(false);
       setClueNumber(1);
+      
+      // Then reveal after delay
+      const timer = setTimeout(() => {
+        setIsCardRevealed(true);
+        console.log('✨ Card revealed! Buttons should be enabled now.');
+      }, 600);
+      
+      return () => clearTimeout(timer);
     }
   }, [currentCard?.id]);
 
   const handleCorrect = async () => {
+    const totalClues = currentCard?.clues?.length || 6;
+    console.log('✅ Correct button clicked!', { 
+      clueNumber, 
+      totalClues,
+      willDrawNewCard: clueNumber >= totalClues,
+      currentCard 
+    });
     markCardCorrect();
     // Move to next clue or draw new card
-    if (clueNumber < 6) {
+    if (clueNumber < totalClues) {
       setClueNumber(prev => prev + 1);
     } else {
+      console.log('📦 Drawing new card after completing all clues');
       drawCard();
+      setClueNumber(1); // Reset to first clue for new card
     }
   };
 
   const handlePassAction = async () => {
+    console.log('⏭️ Pass button clicked!', { clueNumber, currentCard });
     markCardPassed();
     // Move to next clue
-    if (clueNumber < 6) {
+    const totalClues = currentCard?.clues?.length || 6;
+    if (clueNumber < totalClues) {
       setClueNumber(prev => prev + 1);
     } else {
       drawCard();
+      setClueNumber(1);
     }
   };
 
   const handleSkipAction = async () => {
+    console.log('⏩ Skip button clicked!', { currentCard });
     markCardPassed();
     drawCard(); // Skip to new card
+    setClueNumber(1);
   };
 
   const handlePauseToggle = () => {
@@ -204,9 +221,18 @@ const GamePage: React.FC = () => {
 
             {/* Action Buttons */}
             <ActionButtons
-              onCorrect={handleCorrect}
-              onPass={handlePassAction}
-              onSkip={handleSkipAction}
+              onCorrect={() => {
+                console.log('🔘 Correct button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading);
+                handleCorrect();
+              }}
+              onPass={() => {
+                console.log('🔘 Pass button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading);
+                handlePassAction();
+              }}
+              onSkip={() => {
+                console.log('🔘 Skip button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading);
+                handleSkipAction();
+              }}
               onEndTurn={endTurn}
               disabled={!isCardRevealed || gameFlowLoading}
               turnMode="manual"

@@ -53,13 +53,13 @@ export const formatRoomCode = (code: string): string => {
   // Remove any existing formatting
   const cleanCode = code.replace(/-/g, '').toUpperCase();
   
-  // Validate the code first
-  if (!validateRoomCode(cleanCode)) {
-    return code; // Return original if invalid
+  // If less than 3 characters, return as is
+  if (cleanCode.length <= 3) {
+    return cleanCode;
   }
-
-  // Format as XXX-XXX
-  return `${cleanCode.slice(0, 3)}-${cleanCode.slice(3)}`;
+  
+  // Format as XXX-XXX (add hyphen after 3rd character)
+  return `${cleanCode.slice(0, 3)}-${cleanCode.slice(3, 6)}`;
 };
 
 /**

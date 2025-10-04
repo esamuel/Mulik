@@ -92,13 +92,18 @@ const CreateRoomPage: React.FC = () => {
       // Initialize room in local store
       initializeRoom(createdRoomCode, playerId);
 
+      // Store player info in localStorage for persistence
+      localStorage.setItem('mulik_player_id', playerId);
+      localStorage.setItem('mulik_player_name', playerName.trim());
+      localStorage.setItem('mulik_current_room', createdRoomCode);
+
       // Show success message
       showToast(t('rooms.generatingRoom'), 'success');
 
-      // Navigate to lobby
+      // Navigate to lobby (increased delay to ensure Firebase sync)
       setTimeout(() => {
         navigate(`/lobby/${createdRoomCode}`);
-      }, 1000);
+      }, 1500);
 
     } catch (error) {
       console.error('Failed to create room:', error);

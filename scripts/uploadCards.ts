@@ -12,7 +12,11 @@
  *   npx tsx scripts/uploadCards.ts
  */
 
+import { config } from 'dotenv';
 import { initializeApp } from 'firebase/app';
+
+// Load environment variables from .env file
+config();
 import { getFirestore, collection, doc, setDoc, writeBatch } from 'firebase/firestore';
 import { readFileSync } from 'fs';
 import { join } from 'path';

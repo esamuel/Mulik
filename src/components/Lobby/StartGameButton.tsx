@@ -48,10 +48,14 @@ const StartGameButton: React.FC<StartGameButtonProps> = ({
     });
 
     // Check if all players are ready (except host can start without being ready)
+    // Skip this check in debug mode
+    const skipReadyCheck = import.meta.env.VITE_SKIP_READY_CHECK === 'true';
     const playersNotReady = players.filter(player => !player.isReady && !player.isHost);
     requirements.push({
-      met: playersNotReady.length === 0,
-      message: t('lobby.allPlayersReady', { notReady: playersNotReady.length }),
+      met: skipReadyCheck || playersNotReady.length === 0,
+      message: skipReadyCheck 
+        ? t('lobby.readyCheckSkipped', '✓ Ready check skipped (debug mode)')
+        : t('lobby.allPlayersReady', { notReady: playersNotReady.length }),
     });
 
     // Check team balance (optional warning)
