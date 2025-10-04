@@ -39,8 +39,10 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
   };
 
   // Filter to only show teams with players, then sort by score (highest first)
+  // If no active teams found, show all teams (game might be starting)
   const activeTeams = teams.filter(team => getPlayerCount(team) > 0);
-  const sortedTeams = [...activeTeams].sort((a, b) => b.score - a.score);
+  const teamsToShow = activeTeams.length > 0 ? activeTeams : teams;
+  const sortedTeams = [...teamsToShow].sort((a, b) => b.score - a.score);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
