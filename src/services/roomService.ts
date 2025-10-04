@@ -406,6 +406,148 @@ export const assignPlayerToTeam = async (
   }
 };
 
+/**
+ * Update team score in Firebase
+ * @param roomCode - The room code
+ * @param teamColor - The team color
+ * @param scoreIncrement - Points to add to team score
+ */
+export const updateTeamScore = async (
+  roomCode: string,
+  teamColor: TeamColor,
+  scoreIncrement: number
+): Promise<void> => {
+  try {
+    const db = getFirestoreInstance();
+    const roomRef = doc(db, ROOMS_COLLECTION, roomCode);
+    const roomSnap = await getDoc(roomRef);
+
+    if (!roomSnap.exists()) {
+      throw new Error('Room not found');
+    }
+
+    const room = roomSnap.data() as Room;
+    const team = room.teams[teamColor];
+    
+    await updateDoc(roomRef, {
+      [`teams.${teamColor}.score`]: team.score + scoreIncrement,
+    });
+
+    console.log(`✅ Team ${teamColor} score updated: +${scoreIncrement}`);
+  } catch (error) {
+    console.error('Failed to update team score:', error);
+    throw new Error('Failed to update score');
+  }
+};
+
+/**
+ * Update team position on board
+ * @param roomCode - The room code
+ * @param teamColor - The team color
+ * @param newPosition - New position on board
+ */
+export const updateTeamPosition = async (
+  roomCode: string,
+  teamColor: TeamColor,
+  newPosition: number
+): Promise<void> => {
+  try {
+    const db = getFirestoreInstance();
+    const roomRef = doc(db, ROOMS_COLLECTION, roomCode);
+
+    await updateDoc(roomRef, {
+      [`teams.${teamColor}.position`]: newPosition,
+    });
+
+    console.log(`✅ Team ${teamColor} moved to position ${newPosition}`);
+  } catch (error) {
+    console.error('Failed to update team position:', error);
+    throw new Error('Failed to update position');
+  }
+};
+
+/**
+ * Start a new turn for a team
+ * @param roomCode - The room code
+ * @param teamColor - The team whose turn it is
+ * @param speakerId - The player who will be speaking
+ */
+export const startTurn = async (
+  roomCode: string,
+  teamColor: TeamColor,
+  speakerId: string
+): Promise<void> => {
+  try {
+    const db = getFirestoreInstance();
+    const roomRef = doc(db, ROOMS_COLLECTION, roomCode);
+
+    await updateDoc(roomRef, {
+      currentTurn: {
+        team: teamColor,
+        speakerId,
+        cardsWon: 0,
+        cardsPassed: 0,
+        penalties: 0,
+        startTime: Date.now(),
+      },
+    });
+
+    console.log(`✅ Turn started for team ${teamColor}, speaker: ${speakerId}`);
+  } catch (error) {
+    console.error('Failed to start turn:', error);
+    throw new Error('Failed to start turn');
+  }
+};
+
+/**
+ * End the current turn and update scores
+ * @param roomCode - The room code
+ * @param cardsWon - Number of cards guessed correctly
+ * @param cardsPassed - Number of cards passed
+ * @param penalties - Number of penalties
+ */
+export const endTurn = async (
+  roomCode: string,
+  cardsWon: number,
+  cardsPassed: number,
+  penalties: number
+): Promise<void> => {
+  try {
+    const db = getFirestoreInstance();
+    const roomRef = doc(db, ROOMS_COLLECTION, roomCode);
+    const roomSnap = await getDoc(roomRef);
+
+    if (!roomSnap.exists()) {
+      throw new Error('Room not found');
+    }
+
+    const room = roomSnap.data() as Room;
+    if (!room.currentTurn) {
+      throw new Error('No active turn');
+    }
+
+    const { team } = room.currentTurn;
+    const currentTeam = room.teams[team];
+    
+    // Calculate movement (cards won - penalties)
+    const movement = Math.max(0, cardsWon - penalties);
+    const newPosition = currentTeam.position + movement;
+    const newScore = currentTeam.score + cardsWon;
+
+    // Update team stats and clear turn
+    await updateDoc(roomRef, {
+      [`teams.${team}.score`]: newScore,
+      [`teams.${team}.position`]: newPosition,
+      currentTurn: null,
+    });
+
+    console.log(`✅ Turn ended for team ${team}. Score: ${newScore}, Position: ${newPosition}`);
+  } catch (error) {
+    console.error('Failed to end turn:', error);
+    throw new Error('Failed to end turn');
+  }
+};
+
 export default {
   createRoom,
   joinRoom,
@@ -416,4 +558,8 @@ export default {
   cleanupOldRooms,
   updatePlayerReady,
   assignPlayerToTeam,
+  updateTeamScore,
+  updateTeamPosition,
+  startTurn,
+  endTurn,
 };

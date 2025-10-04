@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../stores/gameStore';
+import { useRoom } from '../hooks/useRoom';
 // TODO: Re-enable these hooks when they're fully implemented
-// import { useRoom } from '../hooks/useRoom';
 // import { useGameFlow } from '../hooks/useGameFlow';
 // import { useTimer } from '../hooks/useTimer';
 
@@ -31,11 +31,22 @@ const GamePage: React.FC = () => {
   // Store and hooks
   const { 
     currentCard, 
-    teams, 
-    currentTurn,
+    teams: localTeams, 
+    currentTurn: localCurrentTurn,
     settings: gameSettings,
-    players,
+    players: localPlayers,
   } = useGameStore();
+  
+  // Get Firebase room data for real-time sync
+  const {
+    room,
+    loading: roomLoading,
+  } = useRoom(roomCode || null);
+  
+  // Use Firebase data if available, otherwise fall back to local
+  const teams = room?.teams || localTeams;
+  const players = room?.players || localPlayers;
+  const currentTurn = room?.currentTurn || localCurrentTurn;
   // Derived values
   const currentTeam = currentTurn?.team;
   const turnNumber = 1; // TODO: Add turn tracking to store
@@ -99,7 +110,21 @@ const GamePage: React.FC = () => {
       willDrawNewCard: clueNumber >= totalClues,
       currentCard 
     });
+    
+    // Update local store
     markCardCorrect();
+    
+    // Update Firebase if we have a room and current turn
+    if (roomCode && currentTurn) {
+      try {
+        const { updateTeamScore } = await import('../services/roomService');
+        await updateTeamScore(roomCode, currentTurn.team, 1);
+        console.log(`💰 Score updated for team ${currentTurn.team}`);
+      } catch (error) {
+        console.error('Failed to update score:', error);
+      }
+    }
+    
     // Move to next clue or draw new card
     if (clueNumber < totalClues) {
       setClueNumber(prev => prev + 1);
@@ -145,13 +170,35 @@ const GamePage: React.FC = () => {
   };
 
   const endTurn = async () => {
-    storeEndTurn();
+    if (!roomCode || !currentTurn) {
+      console.error('Cannot end turn: missing roomCode or currentTurn');
+      return;
+    }
+
+    const cardsWon = currentTurn.cardsWon || 0;
+    const cardsPassed = currentTurn.cardsPassed || 0;
+    const penalties = currentTurn.penalties || 0;
+    const movement = Math.max(0, cardsWon - penalties);
+
+    // Show turn summary
     setTurnSummary({
-      cardsWon: currentTurn?.cardsWon || 0,
-      cardsPassed: currentTurn?.cardsPassed || 0,
-      penalties: currentTurn?.penalties || 0,
-      movement: (currentTurn?.cardsWon || 0) - (currentTurn?.penalties || 0),
+      cardsWon,
+      cardsPassed,
+      penalties,
+      movement,
     });
+
+    // Update Firebase
+    try {
+      const { endTurn: endTurnInFirebase } = await import('../services/roomService');
+      await endTurnInFirebase(roomCode, cardsWon, cardsPassed, penalties);
+      console.log(`🏁 Turn ended. Cards won: ${cardsWon}, Movement: ${movement}`);
+      
+      // Update local store
+      storeEndTurn();
+    } catch (error) {
+      console.error('Failed to end turn:', error);
+    }
   };
 
   // Skip connection check for now - simplified implementation
