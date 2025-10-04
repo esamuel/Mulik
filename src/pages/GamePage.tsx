@@ -103,7 +103,7 @@ const GamePage: React.FC = () => {
   }, [currentCard?.id]);
 
   const handleCorrect = async () => {
-    const totalClues = currentCard?.clues?.length || 6;
+    const totalClues = currentCard?.clues?.length || 8;
     console.log('✅ Correct button clicked!', { 
       clueNumber, 
       totalClues,
@@ -139,7 +139,7 @@ const GamePage: React.FC = () => {
     console.log('⏭️ Pass button clicked!', { clueNumber, currentCard });
     markCardPassed();
     // Move to next clue
-    const totalClues = currentCard?.clues?.length || 6;
+    const totalClues = currentCard?.clues?.length || 8;
     if (clueNumber < totalClues) {
       setClueNumber(prev => prev + 1);
     } else {

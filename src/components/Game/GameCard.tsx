@@ -140,7 +140,7 @@ const GameCard: React.FC<GameCardProps> = ({
               
               {/* Clue Number Indicator */}
               <div className="flex items-center space-x-1">
-                {[1, 2, 3, 4, 5, 6].map((num) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
                   <motion.div
                     key={num}
                     className={`w-3 h-3 rounded-full ${

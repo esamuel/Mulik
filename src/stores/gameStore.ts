@@ -335,7 +335,7 @@ export const useGameStore = create<GameStore>()(
         id: 'placeholder',
         category: 'general',
         difficulty: 'medium',
-        clues: ['טלפון', 'מחשב', 'ספר', 'כדור', 'גיטרה', 'שעון']
+        clues: ['טלפון', 'מחשב', 'ספר', 'כדור', 'גיטרה', 'שעון', 'מפתח', 'כוס']
       };
 
       set((state) => {
