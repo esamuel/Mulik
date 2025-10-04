@@ -292,5 +292,52 @@
     "starting": "Starting camera...",
     "manualOption": "Having trouble? Enter room code manually",
     "enterManually": "Enter Code Manually"
+  },
+  "howToPlay": {
+    "title": "How to Play",
+    "setup": {
+      "title": "Game Setup",
+      "step1": "Create a room or join an existing one",
+      "step2": "Choose a team (Red, Blue, Green, Yellow)",
+      "step3": "Wait for all players to be ready",
+      "step4": "Host starts the game"
+    },
+    "gameplay": {
+      "title": "Gameplay",
+      "turn": "On your turn:",
+      "step1": "Timer starts (30/60/90 seconds)",
+      "step2": "Card appears with a clue word",
+      "step3": "Speaker gives hints to the team",
+      "step4": "Team guesses the word",
+      "step5": "Click 'Got It!' when guessed correctly"
+    },
+    "card": {
+      "title": "The Card",
+      "category": "Category badge (top) - Word to guess",
+      "clue": "Clue word (center) - Hint for speaker",
+      "progress": "Progress dots (top) - 8 clues per card",
+      "number": "Clue number (bottom) - Which clue you're on"
+    },
+    "buttons": {
+      "title": "The Buttons",
+      "correct": "Got It! - Guessed correctly, +1 point",
+      "pass": "Pass - Skip to next clue, no points",
+      "skip": "Skip - Skip entire card, -1 penalty",
+      "endTurn": "End Turn - End turn early"
+    },
+    "board": {
+      "title": "Game Board",
+      "description": "Spiral path from START to FINISH",
+      "spaces": "50 spaces total",
+      "movement": "Movement = Cards guessed - Penalties",
+      "winning": "First team to reach FINISH wins!"
+    },
+    "tips": {
+      "title": "Tips",
+      "speaker": "For speaker: Give clear hints, use gestures",
+      "team": "For team: Shout out guesses, don't be shy",
+      "strategy": "Use Pass wisely, avoid Skip",
+      "fun": "Have fun! It's a game!"
+    }
   }
 }
