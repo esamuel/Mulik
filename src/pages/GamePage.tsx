@@ -127,10 +127,13 @@ const GamePage: React.FC = () => {
     
     // Move to next clue or draw new card
     if (clueNumber < totalClues) {
+      console.log(`➡️ Moving to clue ${clueNumber + 1}/${totalClues}`);
       setClueNumber(prev => prev + 1);
     } else {
-      console.log('📦 Drawing new card after completing all clues');
-      drawCard();
+      console.log(`📦 All ${totalClues} clues completed! Drawing new card...`);
+      // Draw new card immediately
+      const newCard = drawCard();
+      console.log('🆕 New card drawn:', newCard?.id);
       setClueNumber(1); // Reset to first clue for new card
     }
   };
