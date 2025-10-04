@@ -7,6 +7,8 @@ import {
   useSensor,
   useSensors,
   DragOverlay,
+  useDraggable,
+  useDroppable,
 } from '@dnd-kit/core';
 import type {
   DragEndEvent,
@@ -17,6 +19,66 @@ import { useTranslation } from 'react-i18next';
 import TeamSection from './TeamSection';
 import PlayerCard from './PlayerCard';
 import type { Player, Team, TeamColor } from '../../types/game.types';
+
+// Draggable Player Wrapper
+const DraggablePlayer: React.FC<{
+  player: Player;
+  isCurrentPlayer: boolean;
+  canRemove: boolean;
+  onRemove?: (playerId: string) => Promise<void>;
+  onClick?: (player: Player) => void;
+  isDragging: boolean;
+}> = ({ player, isCurrentPlayer, canRemove, onRemove, onClick, isDragging }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: player.id,
+  });
+
+  const style = transform ? {
+    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+  } : undefined;
+
+  return (
+    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      <PlayerCard
+        player={player}
+        isCurrentPlayer={isCurrentPlayer}
+        canRemove={canRemove}
+        onRemove={onRemove}
+        onClick={onClick}
+        isDragging={isDragging}
+      />
+    </div>
+  );
+};
+
+// Droppable Team Wrapper
+const DroppableTeam: React.FC<{
+  team: Team;
+  players: Player[];
+  currentPlayerId?: string;
+  canRemovePlayer: boolean;
+  onPlayerRemove?: (playerId: string) => Promise<void>;
+  onPlayerClick?: (player: Player) => void;
+  isDragOver: boolean;
+}> = ({ team, players, currentPlayerId, canRemovePlayer, onPlayerRemove, onPlayerClick, isDragOver }) => {
+  const { setNodeRef } = useDroppable({
+    id: `team-${team.color}`,
+  });
+
+  return (
+    <div ref={setNodeRef}>
+      <TeamSection
+        team={team}
+        players={players}
+        currentPlayerId={currentPlayerId}
+        canRemovePlayer={canRemovePlayer}
+        onPlayerRemove={onPlayerRemove}
+        onPlayerClick={onPlayerClick}
+        isDragOver={isDragOver}
+      />
+    </div>
+  );
+};
 
 interface TeamAssignmentProps {
   players: Player[];
@@ -201,18 +263,26 @@ const TeamAssignment: React.FC<TeamAssignmentProps> = ({
               {unassignedPlayers.map((player) => (
                 <motion.div
                   key={player.id}
-                  id={player.id}
-                  draggable={assignmentMode === 'drag'}
                   layout
                 >
-                  <PlayerCard
-                    player={player}
-                    isCurrentPlayer={player.id === currentPlayerId}
-                    canRemove={isHost && onRemovePlayer && !player.isHost}
-                    onRemove={onRemovePlayer}
-                    onClick={assignmentMode === 'click' ? handlePlayerClick : undefined}
-                    isDragging={draggedPlayer?.id === player.id}
-                  />
+                  {assignmentMode === 'drag' ? (
+                    <DraggablePlayer
+                      player={player}
+                      isCurrentPlayer={player.id === currentPlayerId}
+                      canRemove={isHost && !!onRemovePlayer && !player.isHost}
+                      onRemove={onRemovePlayer}
+                      isDragging={draggedPlayer?.id === player.id}
+                    />
+                  ) : (
+                    <PlayerCard
+                      player={player}
+                      isCurrentPlayer={player.id === currentPlayerId}
+                      canRemove={isHost && !!onRemovePlayer && !player.isHost}
+                      onRemove={onRemovePlayer}
+                      onClick={handlePlayerClick}
+                      isDragging={draggedPlayer?.id === player.id}
+                    />
+                  )}
                 </motion.div>
               ))}
             </div>
@@ -222,17 +292,16 @@ const TeamAssignment: React.FC<TeamAssignmentProps> = ({
         {/* Teams Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {teams.map((team) => (
-            <div key={team.color} id={`team-${team.color}`}>
-              <TeamSection
-                team={team}
-                players={getPlayersForTeam(team.color)}
-                currentPlayerId={currentPlayerId}
-                canRemovePlayer={isHost && !!onRemovePlayer}
-                onPlayerRemove={onRemovePlayer}
-                onPlayerClick={assignmentMode === 'click' ? handlePlayerClick : undefined}
-                isDragOver={dragOverTeam === team.color}
-              />
-            </div>
+            <DroppableTeam
+              key={team.color}
+              team={team}
+              players={getPlayersForTeam(team.color)}
+              currentPlayerId={currentPlayerId}
+              canRemovePlayer={isHost && !!onRemovePlayer}
+              onPlayerRemove={onRemovePlayer}
+              onPlayerClick={assignmentMode === 'click' ? handlePlayerClick : undefined}
+              isDragOver={dragOverTeam === team.color}
+            />
           ))}
         </div>
 
