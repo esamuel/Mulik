@@ -63,6 +63,17 @@ const HomePage: React.FC<HomePageProps> = ({ currentLanguage, onLanguageChange }
             <span>{currentLanguage === 'en' ? 'עברית' : 'English'}</span>
           </motion.button>
 
+          {/* How to Play Button */}
+          <motion.button
+            onClick={() => navigate('/how-to-play')}
+            className="bg-white/10 backdrop-blur-sm border border-white/20 text-white p-2 rounded-lg hover:bg-white/20 transition-all duration-200"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            title={t('howToPlay.title', 'How to Play')}
+          >
+            <span className="text-xl">❓</span>
+          </motion.button>
+
           {/* Settings Button */}
           <motion.button
             onClick={handleSettings}

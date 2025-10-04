@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useTranslation } from 'react-i18next';
 import HomePage from './pages/HomePage';
 import SettingsPage from './pages/SettingsPage';
+import HowToPlayPage from './pages/HowToPlayPage';
 import CreateRoomPage from './pages/CreateRoomPage';
 import JoinRoomPage from './pages/JoinRoomPage';
 import LobbyPage from './pages/LobbyPage';
@@ -62,6 +63,10 @@ function App() {
             <Route 
               path="/settings" 
               element={<SettingsPage />} 
+            />
+            <Route 
+              path="/how-to-play" 
+              element={<HowToPlayPage />} 
             />
             <Route 
               path="/create" 
