@@ -38,8 +38,9 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
     yellow: { color: '#F59E0B', emoji: '🟡', bg: 'from-yellow-500 to-yellow-600', light: 'bg-yellow-50' },
   };
 
-  // Sort teams by score (highest first)
-  const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
+  // Filter to only show teams with players, then sort by score (highest first)
+  const activeTeams = teams.filter(team => getPlayerCount(team) > 0);
+  const sortedTeams = [...activeTeams].sort((a, b) => b.score - a.score);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
