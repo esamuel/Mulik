@@ -9,6 +9,7 @@ import { isFirebaseAvailable } from '../services/firebase';
 import QRCodeDisplay from '../components/UI/QRCodeDisplay';
 import CopyButton from '../components/UI/CopyButton';
 import { useToast } from '../components/UI/Toast';
+import { createJoinUrl, isMobileAccessible } from '../utils/networkUtils';
 
 const CreateRoomPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -30,8 +31,8 @@ const CreateRoomPage: React.FC = () => {
     setRoomCode(code);
   }, []);
 
-  // Create shareable link
-  const shareLink = `${window.location.origin}/join?code=${roomCode}`;
+  // Create shareable link (mobile-friendly)
+  const shareLink = createJoinUrl(roomCode);
 
   // Validate player name
   const validateName = (name: string): string | undefined => {
@@ -261,6 +262,20 @@ const CreateRoomPage: React.FC = () => {
                       showDownload={true}
                       title={`Join MULIK Game - ${roomCode}`}
                     />
+                    
+                    {/* Mobile Access Notice */}
+                    {!isMobileAccessible() && (
+                      <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <div className="flex items-start gap-2">
+                          <span className="text-yellow-600 text-lg">⚠️</span>
+                          <div className="text-sm text-yellow-800">
+                            <p className="font-semibold mb-1">For mobile access:</p>
+                            <p>Make sure your phone is on the same WiFi network, then use your computer's IP address instead of localhost.</p>
+                            <p className="mt-1 text-xs">Check your terminal for the "Network:" URL when running npm run dev</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </div>
