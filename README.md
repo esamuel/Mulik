@@ -135,6 +135,8 @@ npm run type-check   # Run TypeScript compiler
 - `/timer` - Timer component testing
 - `/board` - Game board testing
 - `/gametest` - Complete game page testing
+- `/gameovertest` - Game over screen testing
+- `/comprehensive` - Full test suite with browser compatibility
 
 ### Quick Commit
 
@@ -200,6 +202,13 @@ MULIK is fully responsive and optimized for:
 3. Commit changes: `git commit -m 'Add amazing feature'`
 4. Push to branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
+
+## 📚 Documentation
+
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Complete deployment guide
+- **[TESTING_CHECKLIST.md](TESTING_CHECKLIST.md)** - Comprehensive testing checklist
+- **[FIREBASE_SETUP.md](FIREBASE_SETUP.md)** - Firebase configuration guide
+- **[DEVELOPMENT.md](DEVELOPMENT.md)** - Development workflow guide
 
 ## 📄 License
 

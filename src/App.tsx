@@ -14,6 +14,7 @@ import TimerTest from './components/Debug/TimerTest';
 import BoardTest from './components/Debug/BoardTest';
 import GamePageTest from './components/Debug/GamePageTest';
 import GameOverTest from './components/Debug/GameOverTest';
+import ComprehensiveTest from './components/Debug/ComprehensiveTest';
 import { ToastProvider } from './components/UI/Toast';
 import ErrorBoundary from './components/UI/ErrorBoundary';
 import type { Language } from './types/game.types';
@@ -105,6 +106,10 @@ function App() {
             <Route 
               path="/gameovertest" 
               element={<GameOverTest />} 
+            />
+            <Route 
+              path="/comprehensive" 
+              element={<ComprehensiveTest />} 
             />
             {/* Catch all route - redirect to home */}
             <Route 
