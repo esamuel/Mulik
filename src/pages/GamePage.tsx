@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../stores/gameStore';
 import { useRoom } from '../hooks/useRoom';
+import { useCards } from '../hooks/useCards';
 // TODO: Re-enable these hooks when they're fully implemented
 // import { useGameFlow } from '../hooks/useGameFlow';
 // import { useTimer } from '../hooks/useTimer';
@@ -20,7 +21,7 @@ import SpiralBoard from '../components/Board/SpiralBoard';
 // UI Components
 // import { useToast } from '../components/UI/Toast'; // TODO: Re-enable when needed
 
-import type { Language } from '../types/game.types';
+import type { Language, Card } from '../types/game.types';
 
 const GamePage: React.FC = () => {
   const { roomCode } = useParams<{ roomCode: string }>();
@@ -30,7 +31,6 @@ const GamePage: React.FC = () => {
 
   // Store and hooks
   const { 
-    currentCard, 
     teams: localTeams, 
     currentTurn: localCurrentTurn,
     settings: gameSettings,
@@ -47,13 +47,38 @@ const GamePage: React.FC = () => {
   const teams = room?.teams || localTeams;
   const players = room?.players || localPlayers;
   const currentTurn = room?.currentTurn || localCurrentTurn;
+  
+  // Load actual cards from database
+  const {
+    currentCard: cardFromHook,
+    getNextCard,
+    loading: cardsLoading,
+  } = useCards({
+    language: i18n.language as Language,
+  });
+  
+  // Use card from hook or local state
+  const [currentCard, setCurrentCard] = useState<Card | null>(null);
   // Derived values
   const currentTeam = currentTurn?.team;
   const turnNumber = 1; // TODO: Add turn tracking to store
   const roundNumber = 1; // TODO: Add round tracking to store
 
   // Simplified implementation without full hooks for now
-  const { drawCard, markCardCorrect, markCardPassed, endTurn: storeEndTurn } = useGameStore();
+  const { markCardCorrect, markCardPassed, endTurn: storeEndTurn } = useGameStore();
+  
+  // Custom drawCard function that uses real cards
+  const drawCard = () => {
+    const nextCard = getNextCard();
+    if (nextCard) {
+      setCurrentCard(nextCard);
+      console.log('🎴 Drew new card:', nextCard.id, nextCard.category);
+      return nextCard;
+    } else {
+      console.warn('⚠️ No more cards available');
+      return null;
+    }
+  };
   
   // Local state
   const [isPaused, setIsPaused] = useState(false);
@@ -75,11 +100,12 @@ const GamePage: React.FC = () => {
       return;
     }
 
-    // Start the first turn if no card is drawn
-    if (!currentCard && isCurrentPlayerTurn) {
+    // Start the first turn if no card is drawn and cards are loaded
+    if (!currentCard && !cardsLoading) {
+      console.log('🎮 Initializing first card...');
       drawCard();
     }
-  }, [roomCode, currentCard, isCurrentPlayerTurn, navigate, drawCard]);
+  }, [roomCode, currentCard, cardsLoading]);
 
   // Handle card reveal - runs when card ID changes
   useEffect(() => {
