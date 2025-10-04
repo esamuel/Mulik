@@ -44,7 +44,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/Mulik.git
+git clone https://github.com/esamuel/Mulik.git
 cd Mulik
 
 # Install dependencies
@@ -219,6 +219,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ for the MULIK community**
 
-[🌟 Star this repo](https://github.com/YOUR_USERNAME/Mulik) • [🐛 Report Bug](https://github.com/YOUR_USERNAME/Mulik/issues) • [✨ Request Feature](https://github.com/YOUR_USERNAME/Mulik/issues)
+[🌟 Star this repo](https://github.com/esamuel/Mulik) • [🐛 Report Bug](https://github.com/esamuel/Mulik/issues) • [✨ Request Feature](https://github.com/esamuel/Mulik/issues)
 
 </div>

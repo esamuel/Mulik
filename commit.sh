@@ -19,4 +19,4 @@ echo "🚀 Pushing to GitHub..."
 git push
 
 echo "✅ Successfully committed and pushed to GitHub!"
-echo "🌐 View at: https://github.com/YOUR_USERNAME/Mulik"
+echo "🌐 View at: https://github.com/esamuel/Mulik"

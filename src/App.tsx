@@ -7,11 +7,13 @@ import CreateRoomPage from './pages/CreateRoomPage';
 import JoinRoomPage from './pages/JoinRoomPage';
 import LobbyPage from './pages/LobbyPage';
 import GamePage from './pages/GamePage';
+import GameOverPage from './pages/GameOverPage';
 import GameStoreTest from './components/Debug/GameStoreTest';
 import CardSystemTest from './components/Debug/CardSystemTest';
 import TimerTest from './components/Debug/TimerTest';
 import BoardTest from './components/Debug/BoardTest';
 import GamePageTest from './components/Debug/GamePageTest';
+import GameOverTest from './components/Debug/GameOverTest';
 import { ToastProvider } from './components/UI/Toast';
 import type { Language } from './types/game.types';
 import './i18n';
@@ -75,6 +77,10 @@ function App() {
               element={<GamePage />} 
             />
             <Route 
+              path="/game-over/:roomCode" 
+              element={<GameOverPage />} 
+            />
+            <Route 
               path="/test" 
               element={<GameStoreTest />} 
             />
@@ -93,6 +99,10 @@ function App() {
             <Route 
               path="/gametest" 
               element={<GamePageTest />} 
+            />
+            <Route 
+              path="/gameovertest" 
+              element={<GameOverTest />} 
             />
             {/* Future routes will be added here */}
           </Routes>
