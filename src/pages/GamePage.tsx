@@ -289,6 +289,40 @@ const GamePage: React.FC = () => {
           </div>
           {/* Center Column - Game Card & Actions */}
           <div className="space-y-6">
+            {/* YOUR TURN Banner */}
+            {currentTeam && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`
+                  bg-gradient-to-r ${
+                    currentTeam === 'red' ? 'from-red-500 to-red-600' :
+                    currentTeam === 'blue' ? 'from-blue-500 to-blue-600' :
+                    currentTeam === 'green' ? 'from-green-500 to-green-600' :
+                    'from-yellow-500 to-yellow-600'
+                  }
+                  text-white font-bold text-2xl py-4 px-6 rounded-xl shadow-lg text-center
+                `}
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-3xl">
+                    {currentTeam === 'red' ? '🔴' :
+                     currentTeam === 'blue' ? '🔵' :
+                     currentTeam === 'green' ? '🟢' : '🟡'}
+                  </span>
+                  <span>
+                    {currentTeamData?.name || t(`teams.${currentTeam}`, currentTeam.toUpperCase())} - {t('game.yourTurn', 'YOUR TURN!')}
+                  </span>
+                  <motion.span
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  >
+                    ⏰
+                  </motion.span>
+                </div>
+              </motion.div>
+            )}
+
             {/* Timer */}
             <div className="flex justify-center">
               <Timer
