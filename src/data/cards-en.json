@@ -2,7 +2,7 @@
   "cards": [
     {
       "id": "001",
-      "category": "animals",
+      "category": "dog",
       "difficulty": "easy",
       "clues": [
         "four legs",
@@ -17,7 +17,7 @@
     },
     {
       "id": "002",
-      "category": "animals",
+      "category": "cat",
       "difficulty": "easy",
       "clues": [
         "meow",
@@ -32,7 +32,7 @@
     },
     {
       "id": "003",
-      "category": "animals",
+      "category": "elephant",
       "difficulty": "easy",
       "clues": [
         "large",
@@ -47,7 +47,7 @@
     },
     {
       "id": "004",
-      "category": "animals",
+      "category": "giraffe",
       "difficulty": "easy",
       "clues": [
         "tall",
@@ -62,7 +62,7 @@
     },
     {
       "id": "005",
-      "category": "animals",
+      "category": "kangaroo",
       "difficulty": "easy",
       "clues": [
         "jumps",
@@ -77,7 +77,7 @@
     },
     {
       "id": "006",
-      "category": "animals",
+      "category": "zebra",
       "difficulty": "medium",
       "clues": [
         "stripes",
@@ -92,7 +92,7 @@
     },
     {
       "id": "007",
-      "category": "animals",
+      "category": "lion",
       "difficulty": "medium",
       "clues": [
         "king of jungle",
@@ -107,7 +107,7 @@
     },
     {
       "id": "008",
-      "category": "animals",
+      "category": "panda",
       "difficulty": "medium",
       "clues": [
         "black white",
@@ -122,7 +122,7 @@
     },
     {
       "id": "009",
-      "category": "animals",
+      "category": "rhinoceros",
       "difficulty": "hard",
       "clues": [
         "black",
@@ -137,7 +137,7 @@
     },
     {
       "id": "010",
-      "category": "animals",
+      "category": "dolphin",
       "difficulty": "hard",
       "clues": [
         "sea",
@@ -152,7 +152,7 @@
     },
     {
       "id": "011",
-      "category": "food",
+      "category": "tomato",
       "difficulty": "easy",
       "clues": [
         "red",
@@ -167,7 +167,7 @@
     },
     {
       "id": "012",
-      "category": "food",
+      "category": "lemon",
       "difficulty": "easy",
       "clues": [
         "yellow",
@@ -182,7 +182,7 @@
     },
     {
       "id": "013",
-      "category": "food",
+      "category": "cheese",
       "difficulty": "easy",
       "clues": [
         "white",
@@ -197,7 +197,7 @@
     },
     {
       "id": "014",
-      "category": "food",
+      "category": "chocolate",
       "difficulty": "easy",
       "clues": [
         "brown",
@@ -212,7 +212,7 @@
     },
     {
       "id": "015",
-      "category": "food",
+      "category": "bread",
       "difficulty": "easy",
       "clues": [
         "round",
@@ -227,7 +227,7 @@
     },
     {
       "id": "016",
-      "category": "food",
+      "category": "pizza",
       "difficulty": "medium",
       "clues": [
         "Italian",
@@ -242,7 +242,7 @@
     },
     {
       "id": "017",
-      "category": "food",
+      "category": "pasta",
       "difficulty": "medium",
       "clues": [
         "long",
@@ -257,7 +257,7 @@
     },
     {
       "id": "018",
-      "category": "food",
+      "category": "sushi",
       "difficulty": "medium",
       "clues": [
         "Japanese",
@@ -272,22 +272,22 @@
     },
     {
       "id": "019",
-      "category": "food",
+      "category": "coffee",
       "difficulty": "medium",
       "clues": [
         "brown",
-        "coffee",
         "bitter",
         "morning",
         "hot",
         "cup",
         "milk",
-        "sugar"
+        "sugar",
+        "Arabic"
       ]
     },
     {
       "id": "020",
-      "category": "food",
+      "category": "ice cream",
       "difficulty": "medium",
       "clues": [
         "cold",
@@ -302,82 +302,7 @@
     },
     {
       "id": "021",
-      "category": "food",
-      "difficulty": "hard",
-      "clues": [
-        "green",
-        "Japanese",
-        "powder",
-        "tea",
-        "bitter",
-        "healthy",
-        "ceremony",
-        "foam"
-      ]
-    },
-    {
-      "id": "022",
-      "category": "food",
-      "difficulty": "hard",
-      "clues": [
-        "black",
-        "expensive",
-        "mushroom",
-        "France",
-        "smell",
-        "rare",
-        "earth",
-        "dog finds"
-      ]
-    },
-    {
-      "id": "023",
-      "category": "food",
-      "difficulty": "hard",
-      "clues": [
-        "sea",
-        "black",
-        "salty",
-        "expensive",
-        "fish",
-        "eggs",
-        "Russia",
-        "rich"
-      ]
-    },
-    {
-      "id": "024",
-      "category": "food",
-      "difficulty": "hard",
-      "clues": [
-        "French",
-        "snail",
-        "special",
-        "butter",
-        "garlic",
-        "restaurant",
-        "expensive",
-        "soft"
-      ]
-    },
-    {
-      "id": "025",
-      "category": "food",
-      "difficulty": "hard",
-      "clues": [
-        "French",
-        "legs",
-        "green",
-        "jumps",
-        "special",
-        "restaurant",
-        "butter",
-        "garlic"
-      ]
-    },
-    {
-      "id": "026",
-      "category": "technology",
+      "category": "computer",
       "difficulty": "easy",
       "clues": [
         "screen",
@@ -391,8 +316,8 @@
       ]
     },
     {
-      "id": "027",
-      "category": "technology",
+      "id": "022",
+      "category": "phone",
       "difficulty": "easy",
       "clues": [
         "pocket",
@@ -406,8 +331,8 @@
       ]
     },
     {
-      "id": "028",
-      "category": "technology",
+      "id": "023",
+      "category": "television",
       "difficulty": "easy",
       "clues": [
         "big screen",
@@ -421,8 +346,8 @@
       ]
     },
     {
-      "id": "029",
-      "category": "technology",
+      "id": "024",
+      "category": "headphones",
       "difficulty": "easy",
       "clues": [
         "music",
@@ -436,8 +361,8 @@
       ]
     },
     {
-      "id": "030",
-      "category": "technology",
+      "id": "025",
+      "category": "camera",
       "difficulty": "easy",
       "clues": [
         "pictures",
@@ -451,23 +376,8 @@
       ]
     },
     {
-      "id": "031",
-      "category": "technology",
-      "difficulty": "medium",
-      "clues": [
-        "games",
-        "controller",
-        "screen",
-        "online",
-        "console",
-        "fun",
-        "graphics",
-        "competition"
-      ]
-    },
-    {
-      "id": "032",
-      "category": "technology",
+      "id": "026",
+      "category": "watch",
       "difficulty": "medium",
       "clues": [
         "time",
@@ -481,623 +391,68 @@
       ]
     },
     {
-      "id": "033",
-      "category": "technology",
+      "id": "027",
+      "category": "refrigerator",
       "difficulty": "medium",
       "clues": [
-        "flying",
-        "camera",
-        "remote",
-        "far",
-        "air",
-        "photography",
-        "motors",
-        "modern"
-      ]
-    },
-    {
-      "id": "034",
-      "category": "technology",
-      "difficulty": "medium",
-      "clues": [
-        "voice",
-        "assistant",
-        "smart",
-        "home",
-        "commands",
-        "internet",
-        "music",
-        "questions"
-      ]
-    },
-    {
-      "id": "035",
-      "category": "technology",
-      "difficulty": "medium",
-      "clues": [
-        "virtual",
-        "glasses",
-        "3D",
-        "games",
-        "world",
-        "technology",
-        "experience",
-        "future"
-      ]
-    },
-    {
-      "id": "036",
-      "category": "technology",
-      "difficulty": "hard",
-      "clues": [
-        "blocks",
-        "currency",
-        "digital",
-        "decentralized",
-        "crypto",
-        "network",
-        "security",
-        "future"
-      ]
-    },
-    {
-      "id": "037",
-      "category": "technology",
-      "difficulty": "hard",
-      "clues": [
-        "learning",
-        "network",
-        "neurons",
-        "intelligence",
-        "deep",
-        "data",
-        "prediction",
-        "algorithm"
-      ]
-    },
-    {
-      "id": "038",
-      "category": "technology",
-      "difficulty": "hard",
-      "clues": [
-        "quantum",
-        "super",
-        "fast",
-        "future",
-        "qubits",
         "cold",
-        "research",
-        "complex"
-      ]
-    },
-    {
-      "id": "039",
-      "category": "technology",
-      "difficulty": "hard",
-      "clues": [
-        "space",
-        "rocket",
-        "satellite",
-        "orbit",
-        "communication",
-        "launch",
-        "GPS",
-        "science"
-      ]
-    },
-    {
-      "id": "040",
-      "category": "technology",
-      "difficulty": "hard",
-      "clues": [
-        "biological",
-        "DNA",
-        "editing",
-        "genetic",
-        "science",
-        "future",
-        "medicine",
-        "precise"
-      ]
-    },
-    {
-      "id": "041",
-      "category": "places",
-      "difficulty": "easy",
-      "clues": [
-        "water",
-        "sand",
-        "waves",
-        "sun",
-        "summer",
-        "sea",
-        "lifeguards",
-        "fun"
-      ]
-    },
-    {
-      "id": "042",
-      "category": "places",
-      "difficulty": "easy",
-      "clues": [
-        "books",
-        "quiet",
-        "reading",
-        "shelves",
-        "study",
-        "librarian",
-        "card",
-        "public"
-      ]
-    },
-    {
-      "id": "043",
-      "category": "places",
-      "difficulty": "easy",
-      "clues": [
-        "shopping",
-        "stores",
-        "mall",
-        "people",
-        "products",
-        "money",
-        "bags",
-        "air conditioning"
-      ]
-    },
-    {
-      "id": "044",
-      "category": "places",
-      "difficulty": "easy",
-      "clues": [
-        "games",
-        "children",
-        "slide",
-        "swing",
-        "grass",
-        "fun",
-        "green",
-        "benches"
-      ]
-    },
-    {
-      "id": "045",
-      "category": "places",
-      "difficulty": "easy",
-      "clues": [
-        "sick",
-        "doctors",
-        "nurses",
-        "beds",
-        "treatment",
-        "white",
-        "emergency",
-        "medicine"
-      ]
-    },
-    {
-      "id": "046",
-      "category": "places",
-      "difficulty": "medium",
-      "clues": [
+        "kitchen",
         "food",
-        "waiters",
-        "menu",
-        "tables",
-        "tasty",
-        "dishes",
-        "chef",
-        "order"
+        "frozen",
+        "door",
+        "shelves",
+        "white",
+        "electricity"
       ]
     },
     {
-      "id": "047",
-      "category": "places",
+      "id": "028",
+      "category": "oven",
       "difficulty": "medium",
-      "clues": [
-        "film",
-        "popcorn",
-        "screen",
-        "seats",
-        "ticket",
-        "dark",
-        "sound",
-        "entertainment"
-      ]
-    },
-    {
-      "id": "048",
-      "category": "places",
-      "difficulty": "medium",
-      "clues": [
-        "art",
-        "paintings",
-        "sculptures",
-        "exhibition",
-        "culture",
-        "quiet",
-        "works",
-        "history"
-      ]
-    },
-    {
-      "id": "049",
-      "category": "places",
-      "difficulty": "medium",
-      "clues": [
-        "fitness",
-        "equipment",
-        "running",
-        "weights",
-        "trainer",
-        "sweat",
-        "healthy",
-        "muscles"
-      ]
-    },
-    {
-      "id": "050",
-      "category": "places",
-      "difficulty": "medium",
-      "clues": [
-        "sleep",
-        "bed",
-        "pillow",
-        "blanket",
-        "room",
-        "night",
-        "rest",
-        "dreams"
-      ]
-    },
-    {
-      "id": "051",
-      "category": "places",
-      "difficulty": "hard",
-      "clues": [
-        "high",
-        "peak",
-        "climbing",
-        "snow",
-        "view",
-        "cold",
-        "air",
-        "challenging"
-      ]
-    },
-    {
-      "id": "052",
-      "category": "places",
-      "difficulty": "hard",
-      "clues": [
-        "water",
-        "deep",
-        "diving",
-        "fish",
-        "blue",
-        "waves",
-        "salt",
-        "ocean"
-      ]
-    },
-    {
-      "id": "053",
-      "category": "places",
-      "difficulty": "hard",
       "clues": [
         "hot",
-        "sand",
-        "dry",
-        "cactus",
-        "camel",
-        "sun",
-        "little water",
-        "dunes"
+        "baking",
+        "kitchen",
+        "cake",
+        "brown",
+        "degrees",
+        "glass",
+        "electricity"
       ]
     },
     {
-      "id": "054",
-      "category": "places",
-      "difficulty": "hard",
-      "clues": [
-        "green",
-        "trees",
-        "rain",
-        "animals",
-        "jungle",
-        "humid",
-        "plants",
-        "Amazon"
-      ]
-    },
-    {
-      "id": "055",
-      "category": "places",
-      "difficulty": "hard",
-      "clues": [
-        "cold",
-        "ice",
-        "white",
-        "penguin",
-        "bear",
-        "polar",
-        "snow",
-        "frozen"
-      ]
-    },
-    {
-      "id": "056",
-      "category": "movies",
-      "difficulty": "easy",
-      "clues": [
-        "wizards",
-        "Hogwarts",
-        "wand",
-        "glasses",
-        "scar",
-        "magic",
-        "book",
-        "British"
-      ]
-    },
-    {
-      "id": "057",
-      "category": "movies",
-      "difficulty": "easy",
-      "clues": [
-        "lion",
-        "safari",
-        "king",
-        "Simba",
-        "song",
-        "Disney",
-        "Africa",
-        "circle of life"
-      ]
-    },
-    {
-      "id": "058",
-      "category": "movies",
-      "difficulty": "easy",
-      "clues": [
-        "frozen",
-        "snow",
-        "Elsa",
-        "Anna",
-        "song",
-        "ice",
-        "Olaf",
-        "Disney"
-      ]
-    },
-    {
-      "id": "059",
-      "category": "movies",
-      "difficulty": "easy",
-      "clues": [
-        "toys",
-        "Buzz",
-        "Woody",
-        "children",
-        "play",
-        "Disney",
-        "friends",
-        "adventure"
-      ]
-    },
-    {
-      "id": "060",
-      "category": "movies",
-      "difficulty": "easy",
-      "clues": [
-        "mouse",
-        "ears",
-        "Disney",
-        "red",
-        "famous",
-        "Minnie",
-        "friends",
-        "happy"
-      ]
-    },
-    {
-      "id": "061",
-      "category": "movies",
+      "id": "029",
+      "category": "car",
       "difficulty": "medium",
       "clues": [
-        "ring",
-        "hobbit",
-        "dwarves",
-        "wizards",
-        "adventure",
-        "fantasy",
-        "Gandalf",
-        "Frodo"
+        "wheels",
+        "driving",
+        "road",
+        "engine",
+        "fuel",
+        "steering",
+        "seats",
+        "fast"
       ]
     },
     {
-      "id": "062",
-      "category": "movies",
+      "id": "030",
+      "category": "bicycle",
       "difficulty": "medium",
       "clues": [
-        "space",
-        "stars",
-        "laser",
-        "Skywalker",
-        "Yoda",
-        "force",
-        "Jedi",
-        "Darth Vader"
+        "two wheels",
+        "rider",
+        "pedals",
+        "chain",
+        "bell",
+        "handlebars",
+        "sport",
+        "green"
       ]
     },
     {
-      "id": "063",
-      "category": "movies",
-      "difficulty": "medium",
-      "clues": [
-        "dinosaurs",
-        "park",
-        "science",
-        "DNA",
-        "dangerous",
-        "island",
-        "T-Rex",
-        "survival"
-      ]
-    },
-    {
-      "id": "064",
-      "category": "movies",
-      "difficulty": "medium",
-      "clues": [
-        "ocean",
-        "ship",
-        "iceberg",
-        "love",
-        "sinking",
-        "romantic",
-        "Leonardo",
-        "diamond"
-      ]
-    },
-    {
-      "id": "065",
-      "category": "movies",
-      "difficulty": "medium",
-      "clues": [
-        "matrix",
-        "reality",
-        "Neo",
-        "red",
-        "blue",
-        "agents",
-        "computers",
-        "future"
-      ]
-    },
-    {
-      "id": "066",
-      "category": "movies",
-      "difficulty": "hard",
-      "clues": [
-        "dreams",
-        "layers",
-        "spinning",
-        "Leonardo",
-        "complex",
-        "subconscious",
-        "time",
-        "reality"
-      ]
-    },
-    {
-      "id": "067",
-      "category": "movies",
-      "difficulty": "hard",
-      "clues": [
-        "time",
-        "black white",
-        "magnet",
-        "scientist",
-        "past",
-        "future",
-        "car",
-        "1985"
-      ]
-    },
-    {
-      "id": "068",
-      "category": "movies",
-      "difficulty": "hard",
-      "clues": [
-        "mind",
-        "memory",
-        "erasing",
-        "love",
-        "Jim Carrey",
-        "romantic",
-        "science",
-        "sad"
-      ]
-    },
-    {
-      "id": "069",
-      "category": "movies",
-      "difficulty": "hard",
-      "clues": [
-        "piano",
-        "jazz",
-        "Los Angeles",
-        "dreams",
-        "romantic",
-        "music",
-        "dance",
-        "colorful"
-      ]
-    },
-    {
-      "id": "070",
-      "category": "movies",
-      "difficulty": "hard",
-      "clues": [
-        "war",
-        "soldier",
-        "beach",
-        "rescue",
-        "historical",
-        "brave",
-        "France",
-        "1944"
-      ]
-    },
-    {
-      "id": "071",
-      "category": "general",
-      "difficulty": "easy",
-      "clues": [
-        "blue",
-        "clouds",
-        "sun",
-        "birds",
-        "high",
-        "day",
-        "night",
-        "stars"
-      ]
-    },
-    {
-      "id": "072",
-      "category": "general",
-      "difficulty": "easy",
-      "clues": [
-        "green",
-        "grass",
-        "flowers",
-        "trees",
-        "soil",
-        "nature",
-        "garden",
-        "plants"
-      ]
-    },
-    {
-      "id": "073",
-      "category": "general",
-      "difficulty": "easy",
-      "clues": [
-        "clear",
-        "drink",
-        "essential",
-        "liquid",
-        "tap",
-        "bottle",
-        "cold",
-        "fresh"
-      ]
-    },
-    {
-      "id": "074",
-      "category": "general",
+      "id": "031",
+      "category": "sun",
       "difficulty": "easy",
       "clues": [
         "hot",
@@ -1111,9 +466,99 @@
       ]
     },
     {
-      "id": "075",
-      "category": "general",
+      "id": "032",
+      "category": "moon",
       "difficulty": "easy",
+      "clues": [
+        "night",
+        "white",
+        "round",
+        "sky",
+        "stars",
+        "full",
+        "half",
+        "astronaut"
+      ]
+    },
+    {
+      "id": "033",
+      "category": "sea",
+      "difficulty": "easy",
+      "clues": [
+        "water",
+        "blue",
+        "waves",
+        "beach",
+        "salt",
+        "swimming",
+        "fish",
+        "deep"
+      ]
+    },
+    {
+      "id": "034",
+      "category": "mountain",
+      "difficulty": "easy",
+      "clues": [
+        "high",
+        "peak",
+        "climbing",
+        "snow",
+        "view",
+        "cold",
+        "air",
+        "challenging"
+      ]
+    },
+    {
+      "id": "035",
+      "category": "tree",
+      "difficulty": "easy",
+      "clues": [
+        "green",
+        "leaves",
+        "branches",
+        "trunk",
+        "tall",
+        "shade",
+        "fruit",
+        "forest"
+      ]
+    },
+    {
+      "id": "036",
+      "category": "flower",
+      "difficulty": "easy",
+      "clues": [
+        "colorful",
+        "beautiful",
+        "smell",
+        "petals",
+        "garden",
+        "gift",
+        "bouquet",
+        "bee"
+      ]
+    },
+    {
+      "id": "037",
+      "category": "rain",
+      "difficulty": "medium",
+      "clues": [
+        "water",
+        "drops",
+        "clouds",
+        "wet",
+        "umbrella",
+        "winter",
+        "puddles",
+        "thunder"
+      ]
+    },
+    {
+      "id": "038",
+      "category": "snow",
+      "difficulty": "medium",
       "clues": [
         "white",
         "cold",
@@ -1126,56 +571,731 @@
       ]
     },
     {
-      "id": "076",
-      "category": "general",
+      "id": "039",
+      "category": "wind",
+      "difficulty": "medium",
+      "clues": [
+        "air",
+        "blowing",
+        "strong",
+        "kite",
+        "trees",
+        "cold",
+        "storm",
+        "direction"
+      ]
+    },
+    {
+      "id": "040",
+      "category": "cloud",
+      "difficulty": "medium",
+      "clues": [
+        "white",
+        "sky",
+        "rain",
+        "floating",
+        "soft",
+        "shapes",
+        "gray",
+        "water"
+      ]
+    },
+    {
+      "id": "041",
+      "category": "eye",
       "difficulty": "easy",
       "clues": [
-        "yellow",
-        "banana",
-        "lemon",
-        "sun",
+        "sees",
+        "face",
+        "color",
+        "eyelashes",
+        "glasses",
+        "look",
+        "tears",
+        "two"
+      ]
+    },
+    {
+      "id": "042",
+      "category": "ear",
+      "difficulty": "easy",
+      "clues": [
+        "hears",
+        "head",
+        "sounds",
+        "music",
+        "earring",
+        "two",
+        "big",
+        "small"
+      ]
+    },
+    {
+      "id": "043",
+      "category": "mouth",
+      "difficulty": "easy",
+      "clues": [
+        "speaks",
+        "eats",
+        "lips",
+        "teeth",
+        "tongue",
+        "kiss",
+        "smile",
+        "taste"
+      ]
+    },
+    {
+      "id": "044",
+      "category": "hand",
+      "difficulty": "easy",
+      "clues": [
+        "fingers",
+        "palm",
+        "arm",
+        "holds",
+        "writes",
+        "two",
+        "five",
+        "clap"
+      ]
+    },
+    {
+      "id": "045",
+      "category": "foot",
+      "difficulty": "easy",
+      "clues": [
+        "walks",
+        "runs",
+        "toes",
+        "shoe",
+        "knee",
+        "two",
+        "stands",
+        "big toe"
+      ]
+    },
+    {
+      "id": "046",
+      "category": "heart",
+      "difficulty": "medium",
+      "clues": [
+        "beats",
+        "red",
+        "love",
+        "blood",
+        "chest",
+        "emotion",
+        "strong",
+        "vital"
+      ]
+    },
+    {
+      "id": "047",
+      "category": "brain",
+      "difficulty": "medium",
+      "clues": [
+        "thinks",
+        "head",
+        "smart",
+        "memory",
+        "ideas",
+        "learning",
+        "gray",
+        "complex"
+      ]
+    },
+    {
+      "id": "048",
+      "category": "hair",
+      "difficulty": "medium",
+      "clues": [
+        "head",
+        "long",
+        "short",
+        "color",
+        "comb",
+        "haircut",
+        "salon",
+        "grows"
+      ]
+    },
+    {
+      "id": "049",
+      "category": "running",
+      "difficulty": "easy",
+      "clues": [
+        "fast",
+        "legs",
+        "sport",
+        "marathon",
+        "shoes",
+        "sweat",
+        "fitness",
+        "track"
+      ]
+    },
+    {
+      "id": "050",
+      "category": "swimming",
+      "difficulty": "easy",
+      "clues": [
+        "water",
+        "pool",
+        "sea",
+        "wet",
+        "sport",
+        "summer",
+        "water",
+        "float"
+      ]
+    },
+    {
+      "id": "051",
+      "category": "reading",
+      "difficulty": "easy",
+      "clues": [
+        "book",
+        "eyes",
+        "words",
+        "quiet",
+        "library",
+        "story",
+        "learning",
+        "pages"
+      ]
+    },
+    {
+      "id": "052",
+      "category": "writing",
+      "difficulty": "easy",
+      "clues": [
+        "pen",
+        "words",
+        "paper",
+        "hand",
+        "thoughts",
+        "letter",
+        "story",
+        "letters"
+      ]
+    },
+    {
+      "id": "053",
+      "category": "sleeping",
+      "difficulty": "easy",
+      "clues": [
+        "bed",
+        "night",
+        "eyes closed",
+        "dreams",
+        "pillow",
+        "blanket",
+        "rest",
+        "quiet"
+      ]
+    },
+    {
+      "id": "054",
+      "category": "eating",
+      "difficulty": "easy",
+      "clues": [
+        "food",
+        "mouth",
+        "tasty",
+        "hungry",
+        "fork",
+        "plate",
+        "table",
+        "meal"
+      ]
+    },
+    {
+      "id": "055",
+      "category": "dancing",
+      "difficulty": "medium",
+      "clues": [
+        "music",
+        "movement",
+        "legs",
+        "rhythm",
+        "party",
+        "couple",
         "happy",
-        "bright",
+        "fun"
+      ]
+    },
+    {
+      "id": "056",
+      "category": "singing",
+      "difficulty": "medium",
+      "clues": [
+        "voice",
+        "music",
+        "words",
+        "melody",
+        "microphone",
+        "stage",
+        "singer",
+        "beautiful"
+      ]
+    },
+    {
+      "id": "057",
+      "category": "happiness",
+      "difficulty": "easy",
+      "clues": [
+        "smile",
+        "laugh",
+        "good",
+        "joy",
+        "celebration",
+        "party",
+        "happy",
+        "heart"
+      ]
+    },
+    {
+      "id": "058",
+      "category": "sadness",
+      "difficulty": "easy",
+      "clues": [
+        "tears",
+        "crying",
+        "heart",
+        "bad",
+        "hurts",
+        "sad",
+        "lonely",
+        "blue"
+      ]
+    },
+    {
+      "id": "059",
+      "category": "anger",
+      "difficulty": "easy",
+      "clues": [
+        "red",
+        "yelling",
+        "nervous",
+        "furious",
+        "hot",
+        "tense",
+        "angry",
+        "face"
+      ]
+    },
+    {
+      "id": "060",
+      "category": "love",
+      "difficulty": "easy",
+      "clues": [
+        "heart",
+        "red",
+        "emotion",
+        "couple",
+        "kiss",
         "warm",
-        "gold"
+        "family",
+        "hug"
+      ]
+    },
+    {
+      "id": "061",
+      "category": "fear",
+      "difficulty": "medium",
+      "clues": [
+        "scary",
+        "night",
+        "dark",
+        "shaking",
+        "heart",
+        "running",
+        "afraid",
+        "scared"
+      ]
+    },
+    {
+      "id": "062",
+      "category": "surprise",
+      "difficulty": "medium",
+      "clues": [
+        "sudden",
+        "unexpected",
+        "eyes",
+        "mouth",
+        "gift",
+        "party",
+        "wow",
+        "surprise"
+      ]
+    },
+    {
+      "id": "063",
+      "category": "shirt",
+      "difficulty": "easy",
+      "clues": [
+        "wearing",
+        "clothes",
+        "sleeves",
+        "buttons",
+        "color",
+        "cotton",
+        "body",
+        "upper"
+      ]
+    },
+    {
+      "id": "064",
+      "category": "pants",
+      "difficulty": "easy",
+      "clues": [
+        "wearing",
+        "clothes",
+        "legs",
+        "jeans",
+        "pockets",
+        "belt",
+        "long",
+        "lower"
+      ]
+    },
+    {
+      "id": "065",
+      "category": "shoes",
+      "difficulty": "easy",
+      "clues": [
+        "feet",
+        "walking",
+        "laces",
+        "pair",
+        "sport",
+        "leather",
+        "comfortable",
+        "tying"
+      ]
+    },
+    {
+      "id": "066",
+      "category": "hat",
+      "difficulty": "easy",
+      "clues": [
+        "head",
+        "sun",
+        "wool",
+        "winter",
+        "summer",
+        "protection",
+        "fashion",
+        "wearing"
+      ]
+    },
+    {
+      "id": "067",
+      "category": "glasses",
+      "difficulty": "medium",
+      "clues": [
+        "eyes",
+        "vision",
+        "glass",
+        "frame",
+        "sun",
+        "reading",
+        "nose",
+        "two"
+      ]
+    },
+    {
+      "id": "068",
+      "category": "belt",
+      "difficulty": "medium",
+      "clues": [
+        "waist",
+        "pants",
+        "leather",
+        "buckle",
+        "tight",
+        "hole",
+        "wearing",
+        "around"
+      ]
+    },
+    {
+      "id": "069",
+      "category": "book",
+      "difficulty": "easy",
+      "clues": [
+        "reading",
+        "pages",
+        "story",
+        "words",
+        "cover",
+        "library",
+        "author",
+        "learning"
+      ]
+    },
+    {
+      "id": "070",
+      "category": "pen",
+      "difficulty": "easy",
+      "clues": [
+        "writing",
+        "ink",
+        "blue",
+        "paper",
+        "hand",
+        "words",
+        "click",
+        "short"
+      ]
+    },
+    {
+      "id": "071",
+      "category": "notebook",
+      "difficulty": "easy",
+      "clues": [
+        "writing",
+        "pages",
+        "lines",
+        "spiral",
+        "school",
+        "lessons",
+        "pen",
+        "learning"
+      ]
+    },
+    {
+      "id": "072",
+      "category": "backpack",
+      "difficulty": "easy",
+      "clues": [
+        "carrying",
+        "school",
+        "books",
+        "back",
+        "zipper",
+        "heavy",
+        "student",
+        "shoulders"
+      ]
+    },
+    {
+      "id": "073",
+      "category": "blackboard",
+      "difficulty": "medium",
+      "clues": [
+        "writing",
+        "classroom",
+        "teacher",
+        "chalk",
+        "erasing",
+        "black",
+        "green",
+        "wall"
+      ]
+    },
+    {
+      "id": "074",
+      "category": "calculator",
+      "difficulty": "medium",
+      "clues": [
+        "numbers",
+        "calculation",
+        "math",
+        "buttons",
+        "result",
+        "screen",
+        "plus",
+        "minus"
+      ]
+    },
+    {
+      "id": "075",
+      "category": "soccer",
+      "difficulty": "easy",
+      "clues": [
+        "ball",
+        "goal",
+        "feet",
+        "game",
+        "team",
+        "field",
+        "referee",
+        "sport"
+      ]
+    },
+    {
+      "id": "076",
+      "category": "basketball",
+      "difficulty": "easy",
+      "clues": [
+        "ball",
+        "basket",
+        "high",
+        "jumping",
+        "hands",
+        "game",
+        "team",
+        "court"
       ]
     },
     {
       "id": "077",
-      "category": "general",
-      "difficulty": "easy",
+      "category": "chess",
+      "difficulty": "medium",
       "clues": [
-        "red",
-        "love",
-        "heart",
-        "rose",
-        "blood",
-        "hot",
-        "passion",
-        "fire"
+        "board",
+        "black white",
+        "king",
+        "queen",
+        "strategy",
+        "smart",
+        "game",
+        "moves"
       ]
     },
     {
       "id": "078",
-      "category": "general",
-      "difficulty": "easy",
+      "category": "cards",
+      "difficulty": "medium",
       "clues": [
-        "blue",
-        "sea",
-        "sky",
-        "cold",
-        "calm",
-        "water",
-        "deep",
-        "peaceful"
+        "game",
+        "deck",
+        "numbers",
+        "colors",
+        "shuffle",
+        "deal",
+        "pairs",
+        "paper"
       ]
     },
     {
       "id": "079",
-      "category": "general",
+      "category": "guitar",
+      "difficulty": "medium",
+      "clues": [
+        "strings",
+        "music",
+        "playing",
+        "fingers",
+        "wood",
+        "sound",
+        "song",
+        "instrument"
+      ]
+    },
+    {
+      "id": "080",
+      "category": "piano",
+      "difficulty": "medium",
+      "clues": [
+        "keyboard",
+        "black white",
+        "music",
+        "fingers",
+        "classical",
+        "large",
+        "sound",
+        "instrument"
+      ]
+    },
+    {
+      "id": "081",
+      "category": "drum",
+      "difficulty": "medium",
+      "clues": [
+        "rhythm",
+        "hitting",
+        "leather",
+        "round",
+        "loud",
+        "music",
+        "sticks",
+        "instrument"
+      ]
+    },
+    {
+      "id": "082",
+      "category": "rainbow",
+      "difficulty": "medium",
+      "clues": [
+        "colors",
+        "sky",
+        "rain",
+        "sun",
+        "beautiful",
+        "arc",
+        "seven",
+        "magic"
+      ]
+    },
+    {
+      "id": "083",
+      "category": "thunder",
+      "difficulty": "medium",
+      "clues": [
+        "loud",
+        "strong",
+        "storm",
+        "sky",
+        "lightning",
+        "scary",
+        "rain",
+        "boom"
+      ]
+    },
+    {
+      "id": "084",
+      "category": "lightning",
+      "difficulty": "hard",
+      "clues": [
+        "light",
+        "fast",
+        "sky",
+        "storm",
+        "electricity",
+        "scary",
+        "thunder",
+        "zigzag"
+      ]
+    },
+    {
+      "id": "085",
+      "category": "red",
       "difficulty": "easy",
       "clues": [
-        "green",
+        "color",
+        "fire",
+        "blood",
+        "love",
+        "heart",
+        "tomato",
+        "hot",
+        "strong"
+      ]
+    },
+    {
+      "id": "086",
+      "category": "blue",
+      "difficulty": "easy",
+      "clues": [
+        "color",
+        "sky",
+        "sea",
+        "cold",
+        "calm",
+        "water",
+        "deep",
+        "beautiful"
+      ]
+    },
+    {
+      "id": "087",
+      "category": "green",
+      "difficulty": "easy",
+      "clues": [
+        "color",
         "tree",
         "grass",
         "nature",
@@ -1186,11 +1306,26 @@
       ]
     },
     {
-      "id": "080",
-      "category": "general",
+      "id": "088",
+      "category": "yellow",
       "difficulty": "easy",
       "clues": [
-        "black",
+        "color",
+        "sun",
+        "banana",
+        "lemon",
+        "happy",
+        "bright",
+        "warm",
+        "gold"
+      ]
+    },
+    {
+      "id": "089",
+      "category": "black",
+      "difficulty": "easy",
+      "clues": [
+        "color",
         "night",
         "dark",
         "coal",
@@ -1201,303 +1336,168 @@
       ]
     },
     {
-      "id": "081",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "round",
-        "wheel",
-        "ball",
-        "cake",
-        "clock",
-        "circle",
-        "ring",
-        "perfect"
-      ]
-    },
-    {
-      "id": "082",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "square",
-        "four",
-        "shape",
-        "box",
-        "window",
-        "equal",
-        "straight",
-        "angle"
-      ]
-    },
-    {
-      "id": "083",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "triangle",
-        "three",
-        "pyramid",
-        "sharp",
-        "angle",
-        "shape",
-        "stable",
-        "geometric"
-      ]
-    },
-    {
-      "id": "084",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "star",
-        "five",
-        "sky",
-        "night",
-        "shiny",
-        "shape",
-        "zodiac",
-        "glowing"
-      ]
-    },
-    {
-      "id": "085",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "heart",
-        "love",
-        "red",
-        "emotion",
-        "shape",
-        "Valentine",
-        "romantic",
-        "warm"
-      ]
-    },
-    {
-      "id": "086",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "number",
-        "one",
-        "first",
-        "single",
-        "start",
-        "simple",
-        "alone",
-        "unit"
-      ]
-    },
-    {
-      "id": "087",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "number",
-        "two",
-        "pair",
-        "double",
-        "second",
-        "even",
-        "duo",
-        "couple"
-      ]
-    },
-    {
-      "id": "088",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "number",
-        "three",
-        "triangle",
-        "third",
-        "odd",
-        "trio",
-        "triple",
-        "plural"
-      ]
-    },
-    {
-      "id": "089",
-      "category": "general",
-      "difficulty": "medium",
-      "clues": [
-        "number",
-        "four",
-        "square",
-        "fourth",
-        "even",
-        "seasons",
-        "quarter",
-        "quad"
-      ]
-    },
-    {
       "id": "090",
-      "category": "general",
-      "difficulty": "medium",
+      "category": "white",
+      "difficulty": "easy",
       "clues": [
-        "number",
-        "five",
-        "star",
-        "fifth",
-        "odd",
-        "hand",
-        "fingers",
-        "quintet"
+        "color",
+        "snow",
+        "milk",
+        "clean",
+        "pure",
+        "cloud",
+        "bright",
+        "soft"
       ]
     },
     {
       "id": "091",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "day",
+      "difficulty": "easy",
       "clues": [
         "time",
-        "clock",
-        "minutes",
-        "seconds",
-        "past",
-        "future",
-        "present",
-        "moment"
+        "sun",
+        "light",
+        "morning",
+        "noon",
+        "evening",
+        "24 hours",
+        "night"
       ]
     },
     {
       "id": "092",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "night",
+      "difficulty": "easy",
       "clues": [
-        "distance",
-        "far",
-        "near",
-        "meter",
-        "kilometer",
-        "measurement",
-        "travel",
-        "way"
+        "time",
+        "dark",
+        "moon",
+        "stars",
+        "sleep",
+        "quiet",
+        "black",
+        "day"
       ]
     },
     {
       "id": "093",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "week",
+      "difficulty": "medium",
       "clues": [
-        "weight",
-        "heavy",
-        "light",
-        "kilo",
-        "gram",
-        "scale",
-        "measurement",
-        "force"
+        "time",
+        "seven",
+        "days",
+        "work",
+        "calendar",
+        "month",
+        "Monday",
+        "Friday"
       ]
     },
     {
       "id": "094",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "month",
+      "difficulty": "medium",
       "clues": [
-        "temperature",
-        "heat",
-        "cold",
-        "degrees",
-        "thermometer",
-        "weather",
-        "warm",
-        "Celsius"
+        "time",
+        "thirty",
+        "days",
+        "year",
+        "calendar",
+        "January",
+        "weeks",
+        "four"
       ]
     },
     {
       "id": "095",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "year",
+      "difficulty": "medium",
       "clues": [
-        "direction",
-        "north",
-        "south",
-        "east",
-        "west",
-        "compass",
-        "navigation",
-        "map"
+        "time",
+        "365",
+        "days",
+        "months",
+        "calendar",
+        "seasons",
+        "long",
+        "birthday"
       ]
     },
     {
       "id": "096",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "mother",
+      "difficulty": "easy",
       "clues": [
-        "energy",
-        "power",
-        "electricity",
-        "motion",
-        "heat",
-        "light",
-        "physics",
-        "science"
+        "family",
+        "woman",
+        "children",
+        "love",
+        "home",
+        "care",
+        "warm",
+        "parent"
       ]
     },
     {
       "id": "097",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "father",
+      "difficulty": "easy",
       "clues": [
-        "matter",
-        "solid",
-        "liquid",
-        "gas",
-        "plasma",
-        "atom",
-        "molecule",
-        "chemistry"
+        "family",
+        "man",
+        "children",
+        "love",
+        "home",
+        "work",
+        "strong",
+        "parent"
       ]
     },
     {
       "id": "098",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "brother",
+      "difficulty": "easy",
       "clues": [
-        "gravity",
-        "falling",
-        "weight",
-        "pull",
-        "Newton",
-        "apple",
-        "physics",
-        "earth"
+        "family",
+        "son",
+        "sister",
+        "playing",
+        "home",
+        "boy",
+        "close",
+        "siblings"
       ]
     },
     {
       "id": "099",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "sister",
+      "difficulty": "easy",
       "clues": [
-        "light",
-        "speed",
-        "photon",
-        "wave",
-        "color",
-        "ray",
-        "bright",
-        "Einstein"
+        "family",
+        "daughter",
+        "brother",
+        "playing",
+        "home",
+        "girl",
+        "close",
+        "siblings"
       ]
     },
     {
       "id": "100",
-      "category": "general",
-      "difficulty": "hard",
+      "category": "grandmother",
+      "difficulty": "medium",
       "clues": [
-        "sound",
-        "wave",
-        "frequency",
-        "noise",
-        "music",
-        "ear",
-        "loud",
-        "quiet"
+        "family",
+        "elderly",
+        "mother's mother",
+        "wise",
+        "love",
+        "cookies",
+        "stories",
+        "old"
       ]
     }
   ]
