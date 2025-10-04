@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import HomePage from './pages/HomePage';
 import SettingsPage from './pages/SettingsPage';
@@ -15,6 +15,7 @@ import BoardTest from './components/Debug/BoardTest';
 import GamePageTest from './components/Debug/GamePageTest';
 import GameOverTest from './components/Debug/GameOverTest';
 import { ToastProvider } from './components/UI/Toast';
+import ErrorBoundary from './components/UI/ErrorBoundary';
 import type { Language } from './types/game.types';
 import './i18n';
 
@@ -43,9 +44,10 @@ function App() {
   };
 
   return (
-    <ToastProvider position="top-center">
-      <Router>
-        <div className="App">
+    <ErrorBoundary>
+      <ToastProvider position="top-center">
+        <Router>
+          <div className="App">
           <Routes>
             <Route 
               path="/" 
@@ -104,11 +106,16 @@ function App() {
               path="/gameovertest" 
               element={<GameOverTest />} 
             />
-            {/* Future routes will be added here */}
+            {/* Catch all route - redirect to home */}
+            <Route 
+              path="*" 
+              element={<Navigate to="/" replace />} 
+            />
           </Routes>
-        </div>
-      </Router>
-    </ToastProvider>
+          </div>
+        </Router>
+      </ToastProvider>
+    </ErrorBoundary>
   );
 }
 
