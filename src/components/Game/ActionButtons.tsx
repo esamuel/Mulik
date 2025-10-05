@@ -311,9 +311,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <p>{t('game.gotItDesc', '✅ Got It: Correct answer, move forward')}</p>
-        <p>{t('game.passDesc', '⏭️ Pass: Skip to next clue, no penalty')}</p>
-        <p>{t('game.skipDesc', '❌ Skip: Skip with penalty, lose movement')}</p>
+        <p>{t('game.gotItDesc', '✅ Got It: Correct answer, +1 point')}</p>
+        <p>{t('game.mistakeDesc', '⚠️ Mistake: Said part of word, -1 penalty')}</p>
+        <p>{t('game.skipDesc', '⏩ Skip: Skip card, -1 penalty')}</p>
       </motion.div>
 
       {/* Penalty Warning */}

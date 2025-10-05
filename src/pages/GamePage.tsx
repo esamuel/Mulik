@@ -122,9 +122,9 @@ const GamePage: React.FC = () => {
   useEffect(() => {
     if (currentCard) {
       console.log('🎴 Card loaded, revealing...', currentCard);
-      console.log('📝 Card clues:', currentCard.clues);
-      console.log('📂 Card category:', currentCard.category);
-      console.log(`🎯 Clue number based on board position: ${boardBasedClueNumber}`);
+      console.log('📝 Card words:', currentCard.words);
+      console.log(`🎯 Word number based on board position: ${boardBasedClueNumber}`);
+      console.log(`📍 Word to explain: ${currentCard.words?.[boardBasedClueNumber - 1]}`);
       
       // Reset state first
       setIsCardRevealed(false);
