@@ -121,9 +121,9 @@ const GameCard: React.FC<GameCardProps> = ({
         >
           <div className="w-full h-full bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border-4 border-gray-200 p-6 flex flex-col">
             
-            {/* Word Number Indicator - No dots */}
+            {/* Word Number and Category */}
             <motion.div
-              className="flex justify-center items-center mb-3"
+              className="flex justify-between items-center mb-3 px-2"
               variants={contentVariants}
               initial="hidden"
               animate={isRevealed ? 'visible' : 'hidden'}
@@ -131,6 +131,11 @@ const GameCard: React.FC<GameCardProps> = ({
               <div className="bg-purple-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
                 {t('game.wordNumber', 'Word {{number}}/8', { number: clueNumber })}
               </div>
+              {card?.category && (
+                <div className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                  {card.category}
+                </div>
+              )}
             </motion.div>
 
             {/* All 8 Words List */}
