@@ -182,6 +182,13 @@ const GamePage: React.FC = () => {
     drawCard(); // Skip to new card
   };
 
+  const handleMistake = async () => {
+    console.log('⚠️ Mistake button clicked! Explainer said part of the word', { currentCard });
+    // Mark as mistake (will count as -1 in movement calculation)
+    markCardPassed(); // Use same tracking for now, will separate later
+    drawCard(); // Draw new card
+  };
+
   const handlePauseToggle = () => {
     setIsPaused(!isPaused);
   };
@@ -344,13 +351,13 @@ const GamePage: React.FC = () => {
                 console.log('🔘 Correct button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
                 handleCorrect();
               }}
-              onPass={() => {
-                console.log('🔘 Pass button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
-                handlePassAction();
-              }}
               onSkip={() => {
                 console.log('🔘 Skip button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
                 handleSkipAction();
+              }}
+              onMistake={() => {
+                console.log('🔘 Mistake button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
+                handleMistake();
               }}
               onEndTurn={endTurn}
               disabled={!isCardRevealed || gameFlowLoading || isTimeUp}

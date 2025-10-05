@@ -5,8 +5,8 @@ import { soundService } from '../../services/soundService';
 
 interface ActionButtonsProps {
   onCorrect: () => Promise<void>;
-  onPass: () => Promise<void>;
   onSkip: () => Promise<void>;
+  onMistake: () => Promise<void>; // NEW: Mistake button
   onEndTurn?: () => Promise<void>;
   disabled?: boolean;
   turnMode?: 'auto' | 'manual';
@@ -18,8 +18,8 @@ interface ActionButtonsProps {
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   onCorrect,
-  onPass,
   onSkip,
+  onMistake, // NEW
   onEndTurn,
   disabled = false,
   turnMode = 'auto',
@@ -52,14 +52,17 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
     });
   };
 
-  const handlePass = async () => {
-    await handleAction('pass', onPass);
-  };
-
   const handleSkip = async () => {
     await handleAction('skip', async () => {
       soundService.play('wrong-answer');
       await onSkip();
+    });
+  };
+
+  const handleMistake = async () => {
+    await handleAction('mistake', async () => {
+      soundService.play('wrong-answer');
+      await onMistake();
     });
   };
 
@@ -194,10 +197,46 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           )}
         </motion.button>
 
-        {/* Pass Button */}
+        {/* Mistake Button - NEW */}
         <motion.button
-          onClick={handlePass}
+          onClick={handleMistake}
           disabled={isButtonDisabled}
+          title={t('game.mistakeTooltip', 'Explainer said part of the word? -1 penalty. Anyone can click!')}
+          className={`
+            h-16 px-6 rounded-xl font-bold text-lg shadow-lg
+            transition-all duration-200
+            ${isButtonDisabled
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              : 'bg-orange-500 hover:bg-orange-600 text-white active:bg-orange-700'
+            }
+          `}
+          variants={buttonVariants}
+          initial="idle"
+          animate={isButtonDisabled ? 'disabled' : 'idle'}
+          whileHover={!isButtonDisabled ? 'hover' : undefined}
+          whileTap={!isButtonDisabled ? 'tap' : undefined}
+        >
+          <div className="flex items-center justify-center space-x-2">
+            {actionLoading === 'mistake' ? (
+              <motion.div
+                className="w-6 h-6 border-2 border-white border-t-transparent rounded-full"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              />
+            ) : (
+              <>
+                <span className="text-2xl">⚠️</span>
+                <span>{t('game.mistake', 'Mistake')}</span>
+              </>
+            )}
+          </div>
+        </motion.button>
+
+        {/* Skip Button */}
+        <motion.button
+          onClick={handleSkip}
+          disabled={isButtonDisabled}
+          title={t('game.skipTooltip', 'Too hard? Skip this card. -1 penalty, new card')}
           className={`
             h-16 px-6 rounded-xl font-bold text-lg shadow-lg
             transition-all duration-200
@@ -213,7 +252,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           whileTap={!isButtonDisabled ? 'tap' : undefined}
         >
           <div className="flex items-center justify-center space-x-2">
-            {actionLoading === 'pass' ? (
+            {actionLoading === 'skip' ? (
               <motion.div
                 className="w-6 h-6 border-2 border-white border-t-transparent rounded-full"
                 animate={{ rotate: 360 }}
@@ -221,41 +260,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               />
             ) : (
               <>
-                <span className="text-2xl">⏭️</span>
-                <span>{t('game.pass', 'Pass')}</span>
-              </>
-            )}
-          </div>
-        </motion.button>
-
-        {/* Skip Button */}
-        <motion.button
-          onClick={handleSkip}
-          disabled={isButtonDisabled}
-          className={`
-            h-12 px-4 rounded-xl font-semibold text-base shadow-lg
-            transition-all duration-200
-            ${isButtonDisabled
-              ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-red-500 hover:bg-red-600 text-white active:bg-red-700'
-            }
-          `}
-          variants={buttonVariants}
-          initial="idle"
-          animate={isButtonDisabled ? 'disabled' : 'idle'}
-          whileHover={!isButtonDisabled ? 'hover' : undefined}
-          whileTap={!isButtonDisabled ? 'tap' : undefined}
-        >
-          <div className="flex items-center justify-center space-x-2">
-            {actionLoading === 'skip' ? (
-              <motion.div
-                className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              />
-            ) : (
-              <>
-                <span className="text-lg">❌</span>
+                <span className="text-2xl">⏩</span>
                 <span>{t('game.skip', 'Skip')}</span>
               </>
             )}
