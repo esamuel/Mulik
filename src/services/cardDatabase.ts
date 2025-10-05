@@ -163,10 +163,8 @@ export const validateCard = (card: any): card is Card => {
     typeof card === 'object' &&
     card !== null &&
     typeof card.id === 'string' &&
-    typeof card.category === 'string' &&
-    typeof card.difficulty === 'string' &&
-    Array.isArray(card.clues) &&
-    card.clues.length > 0 &&
-    card.clues.every((clue: any) => typeof clue === 'string')
+    Array.isArray(card.words) &&
+    card.words.length === 8 &&
+    card.words.every((word: any) => typeof word === 'string')
   );
 };

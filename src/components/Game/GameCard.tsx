@@ -24,19 +24,13 @@ const GameCard: React.FC<GameCardProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  // Get the clue text based on language and clue number
-  const getClueText = (): string => {
-    if (!card || !card.clues || card.clues.length === 0) return '';
+  // Get the word to explain based on clue number (which is based on board position)
+  const getWordToExplain = (): string => {
+    if (!card || !card.words || card.words.length === 0) return '';
     
-    // Use the clues array (cards are language-specific, loaded based on current language)
-    return card.clues[clueNumber - 1] || card.clues[0] || '';
-  };
-
-  // Get category display name
-  const getCategoryName = (): string => {
-    if (!card || !card.category) return '';
-    // Category is already in the correct language based on which card set was loaded
-    return card.category;
+    // clueNumber is 1-8, array is 0-7
+    const wordIndex = (clueNumber - 1) % 8;
+    return card.words[wordIndex] || card.words[0] || '';
   };
 
   // Card flip variants
@@ -127,7 +121,7 @@ const GameCard: React.FC<GameCardProps> = ({
         >
           <div className="w-full h-full bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border-4 border-gray-200 p-6 flex flex-col">
             
-            {/* Category Badge */}
+            {/* Word Number Indicator */}
             <motion.div
               className="flex justify-between items-center mb-4"
               variants={contentVariants}
@@ -135,24 +129,24 @@ const GameCard: React.FC<GameCardProps> = ({
               animate={isRevealed ? 'visible' : 'hidden'}
             >
               <div className="bg-purple-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
-                {getCategoryName()}
+                {t('game.wordNumber', 'Word {{number}}/8', { number: clueNumber })}
               </div>
               
-              {/* Clue Number Indicator */}
+              {/* Position Dots */}
               <div className="flex items-center space-x-1">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
                   <motion.div
                     key={num}
                     className={`w-3 h-3 rounded-full ${
-                      num <= clueNumber
+                      num === clueNumber
                         ? 'bg-purple-500'
                         : 'bg-gray-300'
                     }`}
                     animate={{
-                      scale: num === clueNumber ? [1, 1.2, 1] : 1,
+                      scale: num === clueNumber ? [1, 1.3, 1] : 1,
                     }}
                     transition={{
-                      duration: 0.5,
+                      duration: 0.6,
                       repeat: num === clueNumber ? Infinity : 0,
                     }}
                   />
@@ -160,7 +154,7 @@ const GameCard: React.FC<GameCardProps> = ({
               </div>
             </motion.div>
 
-            {/* Clue Text */}
+            {/* Word to Explain */}
             <motion.div
               className="flex-1 flex items-center justify-center"
               variants={contentVariants}
@@ -168,35 +162,33 @@ const GameCard: React.FC<GameCardProps> = ({
               animate={isRevealed ? 'visible' : 'hidden'}
             >
               <div className="text-center">
-                <motion.h2
-                  className={`font-bold text-gray-800 leading-tight ${
-                    language === 'he' ? 'text-right' : 'text-left'
-                  } ${
-                    getClueText().length > 20 
-                      ? 'text-2xl md:text-3xl' 
-                      : 'text-3xl md:text-4xl'
+                <motion.h1
+                  className={`font-bold text-gray-900 leading-tight text-center ${
+                    getWordToExplain().length > 15 
+                      ? 'text-4xl md:text-5xl' 
+                      : 'text-5xl md:text-7xl'
                   }`}
                   dir={language === 'he' ? 'rtl' : 'ltr'}
                   animate={{
-                    scale: [1, 1.02, 1],
+                    scale: [1, 1.05, 1],
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 2,
                     repeat: Infinity,
                     ease: 'easeInOut',
                   }}
                 >
-                  {getClueText()}
-                </motion.h2>
+                  {getWordToExplain()}
+                </motion.h1>
                 
-                {/* Clue Number Display */}
+                {/* Instruction */}
                 <motion.div
-                  className="mt-4 text-sm text-gray-500 font-medium"
+                  className="mt-6 text-lg text-gray-600 font-medium"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
                 >
-                  {t('game.clueNumber', 'Clue {{number}}', { number: clueNumber })}
+                  {t('game.explainThis', 'Explain this word!')}
                 </motion.div>
               </div>
             </motion.div>

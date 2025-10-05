@@ -25,9 +25,9 @@ export type Difficulty = 'easy' | 'medium' | 'hard';
 
 export interface Card {
   id: string;
-  category: Category;
-  difficulty: Difficulty;
-  clues: string[];
+  category?: Category; // Optional, for filtering/organization
+  difficulty?: Difficulty; // Optional, for filtering
+  words: string[]; // 8 words per card - the words to explain
 }
 
 export interface CurrentTurn {

@@ -113,6 +113,8 @@
     "round": "Round",
     "turn": "Turn",
     "clueNumber": "Clue {{number}}",
+    "wordNumber": "Word {{number}}/8",
+    "explainThis": "Explain this word!",
     "difficulty": "Difficulty",
     "gotIt": "Got It!",
     "gotItTooltip": "Team guessed correctly! +1 point, new card",

@@ -113,6 +113,8 @@
     "round": "סיבוב",
     "turn": "תור",
     "clueNumber": "רמז {{number}}",
+    "wordNumber": "מילה {{number}}/8",
+    "explainThis": "הסבר את המילה!",
     "difficulty": "רמת קושי",
     "gotIt": "הבנתי!",
     "gotItTooltip": "הקבוצה ניחשה נכון! +1 נקודה, קלף חדש",
