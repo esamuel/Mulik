@@ -121,9 +121,9 @@ const GameCard: React.FC<GameCardProps> = ({
         >
           <div className="w-full h-full bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border-4 border-gray-200 p-6 flex flex-col">
             
-            {/* Word Number Indicator */}
+            {/* Word Number Indicator - No dots */}
             <motion.div
-              className="flex justify-between items-center mb-4"
+              className="flex justify-center items-center mb-3"
               variants={contentVariants}
               initial="hidden"
               animate={isRevealed ? 'visible' : 'hidden'}
@@ -131,65 +131,58 @@ const GameCard: React.FC<GameCardProps> = ({
               <div className="bg-purple-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
                 {t('game.wordNumber', 'Word {{number}}/8', { number: clueNumber })}
               </div>
-              
-              {/* Position Dots */}
-              <div className="flex items-center space-x-1">
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                  <motion.div
-                    key={num}
-                    className={`w-3 h-3 rounded-full ${
-                      num === clueNumber
-                        ? 'bg-purple-500'
-                        : 'bg-gray-300'
-                    }`}
-                    animate={{
-                      scale: num === clueNumber ? [1, 1.3, 1] : 1,
-                    }}
-                    transition={{
-                      duration: 0.6,
-                      repeat: num === clueNumber ? Infinity : 0,
-                    }}
-                  />
-                ))}
-              </div>
             </motion.div>
 
-            {/* Word to Explain */}
+            {/* All 8 Words List */}
             <motion.div
-              className="flex-1 flex items-center justify-center"
+              className="flex-1 overflow-y-auto px-4 py-2"
               variants={contentVariants}
               initial="hidden"
               animate={isRevealed ? 'visible' : 'hidden'}
             >
-              <div className="text-center">
-                <motion.h1
-                  className={`font-bold text-gray-900 leading-tight text-center ${
-                    getWordToExplain().length > 15 
-                      ? 'text-4xl md:text-5xl' 
-                      : 'text-5xl md:text-7xl'
-                  }`}
-                  dir={language === 'he' ? 'rtl' : 'ltr'}
-                  animate={{
-                    scale: [1, 1.05, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                >
-                  {getWordToExplain()}
-                </motion.h1>
-                
-                {/* Instruction */}
-                <motion.div
-                  className="mt-6 text-lg text-gray-600 font-medium"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  {t('game.explainThis', 'Explain this word!')}
-                </motion.div>
+              <div className={`w-full space-y-1.5 ${language === 'he' ? 'text-right' : 'text-left'}`} dir={language === 'he' ? 'rtl' : 'ltr'}>
+                {card?.words?.map((word, index) => {
+                  const wordNumber = index + 1;
+                  const isCurrentWord = wordNumber === clueNumber;
+                  
+                  return (
+                    <motion.div
+                      key={index}
+                      className={`flex items-center gap-2 py-1.5 px-3 rounded-lg ${
+                        isCurrentWord 
+                          ? 'bg-purple-100 border-2 border-purple-500' 
+                          : 'bg-white border border-gray-200'
+                      }`}
+                      animate={{
+                        scale: isCurrentWord ? [1, 1.01, 1] : 1,
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: isCurrentWord ? Infinity : 0,
+                      }}
+                    >
+                      <span className={`font-bold min-w-[24px] ${
+                        isCurrentWord ? 'text-purple-600 text-lg' : 'text-gray-500 text-base'
+                      }`}>
+                        {wordNumber}.
+                      </span>
+                      <span className={`font-semibold ${
+                        isCurrentWord ? 'text-purple-900 text-lg' : 'text-gray-700 text-base'
+                      }`}>
+                        {word}
+                      </span>
+                      {isCurrentWord && (
+                        <motion.span
+                          className="ml-auto text-purple-600 font-bold text-sm"
+                          animate={{ opacity: [0.5, 1, 0.5] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          ← {t('game.explainThis', 'Explain this!')}
+                        </motion.span>
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
 
