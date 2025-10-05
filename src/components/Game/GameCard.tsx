@@ -70,7 +70,7 @@ const GameCard: React.FC<GameCardProps> = ({
     <div className={`relative w-full max-w-md mx-auto ${className}`}>
       {/* Card Container */}
       <motion.div
-        className="relative w-full h-64 md:h-80"
+        className="relative w-full h-96 md:h-[500px]"
         style={{ 
           perspective: '1000px',
           transformStyle: 'preserve-3d'
