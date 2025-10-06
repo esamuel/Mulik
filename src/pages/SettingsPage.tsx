@@ -20,7 +20,7 @@ const SettingsPage: React.FC = () => {
     updateSettings({ language });
   };
 
-  const handleThemeChange = (theme: 'modern' | 'cartoon') => {
+  const handleThemeChange = (theme: 'modern' | 'cartoon' | 'dark' | 'high-contrast' | 'colorblind') => {
     updateSettings({ theme });
   };
 
@@ -34,6 +34,14 @@ const SettingsPage: React.FC = () => {
 
   const handleSoundChange = (checked: boolean) => {
     updateSettings({ soundEnabled: checked });
+  };
+
+  const handleTimerStyleChange = (style: 'ring' | 'sandglass') => {
+    updateSettings({ timerStyle: style });
+  };
+
+  const handleCardDifficultyChange = (value: 'easy' | 'mixed' | 'hard') => {
+    updateSettings({ cardDifficulty: value });
   };
 
   const handleSave = () => {
@@ -102,6 +110,75 @@ const SettingsPage: React.FC = () => {
                 value={settings.language}
                 onChange={handleLanguageChange}
               />
+            </div>
+          </motion.div>
+
+          {/* Timer Style Section */}
+          <motion.div
+            className="mulik-card"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+          >
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">⏳</span>
+                <h3 className="text-lg font-semibold text-gray-800">{t('settings.timerStyle', 'Timer style')}</h3>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => handleTimerStyleChange('ring')}
+                  className={`py-2 rounded-lg font-medium ${settings.timerStyle !== 'sandglass' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                >
+                  {t('settings.ring', 'Time Ring')}
+                </button>
+                <button
+                  onClick={() => handleTimerStyleChange('sandglass')}
+                  className={`py-2 rounded-lg font-medium ${settings.timerStyle === 'sandglass' ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                >
+                  {t('settings.sandglass', 'Sand Watch')}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card Difficulty Section */}
+          <motion.div
+            className="mulik-card"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+          >
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🧠</span>
+                <h3 className="text-lg font-semibold text-gray-800">{t('settings.cardDifficulty', 'Words difficulty')}</h3>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  onClick={() => handleCardDifficultyChange('easy')}
+                  className={`py-2 rounded-lg font-medium ${settings.cardDifficulty === 'easy' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                >
+                  {t('settings.easy', 'Easy')}
+                </button>
+                <button
+                  onClick={() => handleCardDifficultyChange('mixed')}
+                  className={`py-2 rounded-lg font-medium ${settings.cardDifficulty === 'mixed' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                >
+                  {t('settings.mixed', 'Mixed')}
+                </button>
+                <button
+                  onClick={() => handleCardDifficultyChange('hard')}
+                  className={`py-2 rounded-lg font-medium ${settings.cardDifficulty === 'hard' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                >
+                  {t('settings.hard', 'Hard')}
+                </button>
+              </div>
+              <div className="text-xs text-gray-500">
+                {settings.cardDifficulty === 'easy' && t('settings.cardDifficultyHintEasy', 'Simpler words suitable for younger players')}
+                {settings.cardDifficulty === 'mixed' && t('settings.cardDifficultyHintMixed', 'A balanced mix of easy and hard words')}
+                {settings.cardDifficulty === 'hard' && t('settings.cardDifficultyHintHard', 'Challenging words; may include two-word phrases')}
+              </div>
             </div>
           </motion.div>
 

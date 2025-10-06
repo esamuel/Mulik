@@ -170,7 +170,6 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
               } : {}}
               transition={{
                 duration: 2,
-                repeat: isCurrentTeam ? Infinity : 0,
               }}
             >
               {/* Team Header */}
@@ -202,6 +201,26 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
                     {t('game.points', 'points')}
                   </div>
                 </div>
+              </div>
+
+              {/* 1..8 Word Index Strip */}
+              <div className="mt-2 flex gap-1">
+                {[1,2,3,4,5,6,7,8].map((num) => {
+                  const fallback = team.position === 0 ? 1 : (((team.position - 1) % 8) + 1);
+                  const activeNum = team.wordIndex ?? fallback;
+                  const isActive = num === activeNum;
+                  return (
+                    <span
+                      key={num}
+                      className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold border ${isCurrentTeam ? 'border-white/60' : 'border-gray-300'} ${isActive ? '' : isCurrentTeam ? 'bg-white/20 text-white' : 'bg-white text-gray-700'}`}
+                      style={isActive ? { backgroundColor: config.color, color: '#fff' } : undefined}
+                      title={t('game.wordNumber', 'Word {{number}}/8', { number: num })}
+                    >
+                      {num}
+                    </span>
+                  );
+                })}
+              </div>
 
                 {/* Leading Crown */}
                 {isLeading && (
@@ -220,7 +239,7 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
                     👑
                   </motion.div>
                 )}
-              </div>
+
 
               {/* Progress Bar */}
               {showProgress && (
@@ -255,23 +274,36 @@ const ScoreBoard: React.FC<ScoreBoardProps> = ({
                 </div>
               )}
 
-              {/* Player List */}
+              {/* Player List (resolve IDs to names) */}
               <div className="mt-3 flex flex-wrap gap-1">
-                {team.players.map((player) => (
-                  <span
-                    key={player.id}
-                    className={`
-                      px-2 py-1 rounded-full text-xs font-medium
-                      ${isCurrentTeam 
-                        ? 'bg-white bg-opacity-20 text-white' 
-                        : 'bg-gray-200 text-gray-700'
-                      }
-                    `}
-                  >
-                    {player.name}
-                  </span>
-                ))}
+                {team.players.map((playerId) => {
+                  const p = players[playerId];
+                  if (!p) return null;
+                  return (
+                    <span
+                      key={playerId}
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${isCurrentTeam ? 'bg-white bg-opacity-20 text-white' : 'bg-gray-200 text-gray-700'}`}
+                    >
+                      {p.name}
+                    </span>
+                  );
+                })}
               </div>
+
+              {/* Last Turn Result */}
+              {typeof team.lastMovement !== 'undefined' && (
+                <div className={`mt-3 p-3 rounded-lg ${isCurrentTeam ? 'bg-white/15 text-white' : 'bg-gray-100 text-gray-800'}`}>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="font-semibold">{t('game.lastTurn', 'Last turn')}</span>
+                    <span className={`font-bold ${team.lastMovement! >= 0 ? 'text-green-600' : 'text-red-600'} ${isCurrentTeam ? 'text-white' : ''}`}>
+                      {team.lastMovement! >= 0 ? '+' : ''}{team.lastMovement} {t('game.spaces', 'spaces')}
+                    </span>
+                  </div>
+                  <div className={`mt-1 text-xs ${isCurrentTeam ? 'text-white/90' : 'text-gray-600'}`}>
+                    {t('game.cardsWon', 'Cards Won')}: {team.lastCardsWon || 0} · {t('game.cardsPassed', 'Cards Passed')}: {team.lastPassed || 0} · {t('game.penalties', 'Penalties')}: {team.lastPenalties || 0}
+                  </div>
+                </div>
+              )}
 
               {/* Current Turn Indicator */}
               {isCurrentTeam && (

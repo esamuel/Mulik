@@ -1,0 +1,13 @@
+.theme-high-contrast {
+  --primary: #000000;
+  --secondary: #FFFFFF;
+  --background: #FFFFFF;
+  --surface: #FFFFFF;
+  --text: #000000;
+  --text-secondary: #111111;
+  --border: #000000;
+  --success: #007A00;
+  --warning: #B36B00;
+  --error: #B30000;
+  --shadow: 0 0 0 3px #000 inset;
+}

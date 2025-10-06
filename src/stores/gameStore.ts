@@ -47,6 +47,7 @@ interface GameStore {
   drawCard: () => Card;
   markCardCorrect: () => void;
   markCardPassed: () => void;
+  markPenalty: () => void;
   updateTimer: (timeRemaining: number) => void;
   moveTeam: (team: TeamColor, spaces: number) => void;
   resetGame: () => void;
@@ -68,10 +69,10 @@ export const useGameStore = create<GameStore>()(
     roomCode: null,
     gameState: 'lobby',
     teams: {
-      red: { color: 'red', name: 'Red Team', players: [], position: 0, score: 0 },
-      blue: { color: 'blue', name: 'Blue Team', players: [], position: 0, score: 0 },
-      green: { color: 'green', name: 'Green Team', players: [], position: 0, score: 0 },
-      yellow: { color: 'yellow', name: 'Yellow Team', players: [], position: 0, score: 0 },
+      red: { color: 'red', name: 'Red Team', players: [], position: 0, wordIndex: 1, score: 0 },
+      blue: { color: 'blue', name: 'Blue Team', players: [], position: 0, wordIndex: 1, score: 0 },
+      green: { color: 'green', name: 'Green Team', players: [], position: 0, wordIndex: 1, score: 0 },
+      yellow: { color: 'yellow', name: 'Yellow Team', players: [], position: 0, wordIndex: 1, score: 0 },
     },
     players: {},
     currentTurn: null,
@@ -91,10 +92,10 @@ export const useGameStore = create<GameStore>()(
         state.gameState = 'lobby';
         // Reset all game state
         state.teams = {
-          red: { color: 'red', name: 'Red Team', players: [], position: 0, score: 0 },
-          blue: { color: 'blue', name: 'Blue Team', players: [], position: 0, score: 0 },
-          green: { color: 'green', name: 'Green Team', players: [], position: 0, score: 0 },
-          yellow: { color: 'yellow', name: 'Yellow Team', players: [], position: 0, score: 0 },
+          red: { color: 'red', name: 'Red Team', players: [], position: 0, wordIndex: 1, score: 0 },
+          blue: { color: 'blue', name: 'Blue Team', players: [], position: 0, wordIndex: 1, score: 0 },
+          green: { color: 'green', name: 'Green Team', players: [], position: 0, wordIndex: 1, score: 0 },
+          yellow: { color: 'yellow', name: 'Yellow Team', players: [], position: 0, wordIndex: 1, score: 0 },
         };
         state.players = {};
         state.currentTurn = null;
@@ -283,13 +284,23 @@ export const useGameStore = create<GameStore>()(
         const { team, cardsWon, cardsPassed, penalties } = state.currentTurn;
         const movement = calculateMovement(cardsWon, cardsPassed, penalties);
         
-        // Move the team
+        // Move the team on 1..8 track
         const currentTeam = state.teams[team];
-        currentTeam.position = Math.max(0, currentTeam.position + movement);
+        const currentIndex = currentTeam.wordIndex ?? 1;
+        const wrapped = ((currentIndex - 1 + movement) % 8 + 8) % 8 + 1; // keep within 1..8
+        currentTeam.wordIndex = wrapped;
         currentTeam.score += cardsWon;
 
+        // Save last turn stats for UI
+        currentTeam.lastMovement = movement;
+        currentTeam.lastCardsWon = cardsWon;
+        currentTeam.lastPassed = cardsPassed;
+        currentTeam.lastPenalties = penalties;
+        currentTeam.lastUpdated = Date.now();
+
         // Check win condition
-        if (checkWinCondition(currentTeam.position, state.boardSize)) {
+        // Optional: keep legacy position-based win disabled; using score target instead
+        if (checkWinCondition(0, state.boardSize)) {
           state.gameState = 'finished';
           state.currentTurn = null;
           return;
@@ -335,7 +346,7 @@ export const useGameStore = create<GameStore>()(
         id: 'placeholder',
         category: 'general',
         difficulty: 'medium',
-        clues: ['טלפון', 'מחשב', 'ספר', 'כדור', 'גיטרה', 'שעון', 'מפתח', 'כוס']
+        words: ['טלפון', 'מחשב', 'ספר', 'כדור', 'גיטרה', 'שעון', 'מפתח', 'כוס']
       };
 
       set((state) => {
@@ -371,6 +382,17 @@ export const useGameStore = create<GameStore>()(
     },
 
     /**
+     * Records a penalty (e.g., said part of the word)
+     */
+    markPenalty: () => {
+      set((state) => {
+        if (state.currentTurn) {
+          state.currentTurn.penalties += 1;
+        }
+      });
+    },
+
+    /**
      * Updates the remaining time for the current turn
      */
     updateTimer: (timeRemaining: number) => {
@@ -387,12 +409,9 @@ export const useGameStore = create<GameStore>()(
     moveTeam: (team: TeamColor, spaces: number) => {
       set((state) => {
         const targetTeam = state.teams[team];
-        targetTeam.position = Math.max(0, targetTeam.position + spaces);
-        
-        // Check win condition
-        if (checkWinCondition(targetTeam.position, state.boardSize)) {
-          state.gameState = 'finished';
-        }
+        const currentIndex = targetTeam.wordIndex ?? 1;
+        const wrapped = ((currentIndex - 1 + spaces) % 8 + 8) % 8 + 1;
+        targetTeam.wordIndex = wrapped;
       });
     },
 
@@ -409,6 +428,7 @@ export const useGameStore = create<GameStore>()(
         // Reset team positions and scores
         Object.values(state.teams).forEach(team => {
           team.position = 0;
+          team.wordIndex = 1;
           team.score = 0;
         });
 

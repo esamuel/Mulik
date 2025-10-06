@@ -1,0 +1,14 @@
+.theme-colorblind {
+  /* Palette optimized for deuteranopia/protanopia */
+  --primary: #3366CC;   /* blue */
+  --secondary: #FF9900; /* orange */
+  --background: #FFFFFF;
+  --surface: #F5F7FA;
+  --text: #1F2937;
+  --text-secondary: #4B5563;
+  --border: #D1D5DB;
+  --success: #2CA02C;   /* greenish but distinct from red */
+  --warning: #D67F00;   /* deep orange */
+  --error: #CC3333;     /* deep red */
+  --shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}

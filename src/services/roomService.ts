@@ -528,20 +528,32 @@ export const endTurn = async (
 
     const { team } = room.currentTurn;
     const currentTeam = room.teams[team];
-    
-    // Calculate movement (cards won - penalties)
-    const movement = Math.max(0, cardsWon - penalties);
-    const newPosition = currentTeam.position + movement;
-    const newScore = currentTeam.score + cardsWon;
+
+    // Movement as per rules: cardsWon - penalties (Pass gives 0; Skip is a penalty)
+    const movement = (cardsWon || 0) - (penalties || 0);
+
+    // Score increases only by cardsWon
+    const newScore = (currentTeam.score || 0) + (cardsWon || 0);
+
+    // Compute new 1..8 word index (fallback from legacy position if not present)
+    const legacyMap = (position: number): number => (position === 0 ? 1 : (((position - 1) % 8) + 1));
+    const currentWordIndex = (currentTeam as any).wordIndex ?? legacyMap(currentTeam.position || 0);
+    const wrappedWordIndex = ((currentWordIndex - 1 + movement) % 8 + 8) % 8 + 1;
+
+    // Keep legacy position updated for compatibility, but non-negative only
+    const legacyForward = Math.max(0, movement);
+    const newPosition = (currentTeam.position || 0) + legacyForward;
 
     // Update team stats and clear turn
     await updateDoc(roomRef, {
       [`teams.${team}.score`]: newScore,
       [`teams.${team}.position`]: newPosition,
+      [`teams.${team}.wordIndex`]: wrappedWordIndex,
       currentTurn: null,
+      lastActivity: Date.now(),
     });
 
-    console.log(`✅ Turn ended for team ${team}. Score: ${newScore}, Position: ${newPosition}`);
+    console.log(`✅ Turn ended for team ${team}. Score: ${newScore}, Position: ${newPosition}, WordIndex: ${wrappedWordIndex}, Movement: ${movement}`);
   } catch (error) {
     console.error('Failed to end turn:', error);
     throw new Error('Failed to end turn');

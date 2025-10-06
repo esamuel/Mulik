@@ -24,32 +24,10 @@ const GameCard: React.FC<GameCardProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  // Get the word to explain based on clue number (which is based on board position)
-  const getWordToExplain = (): string => {
-    if (!card || !card.words || card.words.length === 0) return '';
-    
-    // clueNumber is 1-8, array is 0-7
-    const wordIndex = (clueNumber - 1) % 8;
-    return card.words[wordIndex] || card.words[0] || '';
-  };
+  // No-op helper removed (word displayed inline from props)
 
-  // Card flip variants
-  const cardVariants = {
-    front: {
-      rotateY: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeInOut',
-      },
-    },
-    back: {
-      rotateY: 180,
-      transition: {
-        duration: 0.6,
-        ease: 'easeInOut',
-      },
-    },
-  };
+  // Flip transition config
+  const flipTransition = { duration: 0.6, ease: 'easeInOut' as const };
 
   const contentVariants = {
     hidden: {
@@ -68,23 +46,30 @@ const GameCard: React.FC<GameCardProps> = ({
 
   return (
     <div className={`relative w-full max-w-md mx-auto ${className}`}>
-      {/* Card Container */}
-      <motion.div
+      {/* Perspective wrapper */}
+      <div
         className="relative w-full h-96 md:h-[500px]"
-        style={{ 
-          perspective: '1000px',
-          transformStyle: 'preserve-3d'
-        }}
-        initial="front"
-        animate={isRevealed ? 'back' : 'front'}
-        variants={cardVariants}
-        onAnimationComplete={onFlipComplete}
+        style={{ perspective: '1000px', WebkitPerspective: '1000px' as any }}
       >
+        {/* Card Container (the element that rotates) */}
+        <motion.div
+          className="relative w-full h-full"
+          style={{ 
+            transformStyle: 'preserve-3d',
+            WebkitTransformStyle: 'preserve-3d' as any,
+            willChange: 'transform'
+          }}
+          initial={{ rotateY: 0 }}
+          animate={{ rotateY: isRevealed ? 180 : 0 }}
+          transition={flipTransition}
+          onAnimationComplete={onFlipComplete}
+        >
         {/* Card Front (MULIK Logo) */}
         <motion.div
           className="absolute inset-0 w-full h-full backface-hidden"
           style={{
             backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(0deg)',
           }}
         >
@@ -203,7 +188,10 @@ const GameCard: React.FC<GameCardProps> = ({
             </motion.div>
           </div>
         </motion.div>
-      </motion.div>
+        {/* End of back face */}
+        {/* Close rotating container */}
+        </motion.div>
+      </div>
 
       {/* Flip Animation Overlay */}
       {isFlipping && (

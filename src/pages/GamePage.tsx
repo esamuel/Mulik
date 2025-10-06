@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useGameStore } from '../stores/gameStore';
+import { useSettings } from '../hooks/useSettings';
+import { getNextTeam, getNextSpeaker } from '../services/gameLogic';
 import { useRoom } from '../hooks/useRoom';
 import { useCards } from '../hooks/useCards';
 // TODO: Re-enable these hooks when they're fully implemented
@@ -16,7 +18,8 @@ import ActionButtons from '../components/Game/ActionButtons';
 import TurnSummary from '../components/Game/TurnSummary';
 import ScoreBoard from '../components/Game/ScoreBoard';
 import Timer from '../components/Game/Timer';
-import SpiralBoard from '../components/Board/SpiralBoard';
+import InGameSettingsModal from '../components/Game/InGameSettingsModal';
+// Spiral board removed in favor of per-team 1..8 track
 
 // UI Components
 // import { useToast } from '../components/UI/Toast'; // TODO: Re-enable when needed
@@ -36,6 +39,7 @@ const GamePage: React.FC = () => {
     settings: gameSettings,
     players: localPlayers,
   } = useGameStore();
+  const { settings: appSettings } = useSettings();
   
   // Get Firebase room data for real-time sync
   const {
@@ -49,12 +53,23 @@ const GamePage: React.FC = () => {
   const currentTurn = room?.currentTurn || localCurrentTurn;
   
   // Load actual cards from database
+  // Determine card difficulty from local Settings (mulik-settings)
+  const storedSettings = (() => {
+    try {
+      const raw = localStorage.getItem('mulik-settings');
+      return raw ? JSON.parse(raw) : {};
+    } catch { return {}; }
+  })() as any;
+  const cardDifficultyPref = storedSettings.cardDifficulty as 'easy'|'mixed'|'hard'|undefined;
+  const mappedDifficulty = cardDifficultyPref === 'mixed' || !cardDifficultyPref ? undefined : (cardDifficultyPref as any);
+
   const {
     currentCard: cardFromHook,
     getNextCard,
     loading: cardsLoading,
   } = useCards({
     language: i18n.language as Language,
+    difficulty: mappedDifficulty,
   });
   
   // Use card from hook or local state
@@ -65,7 +80,7 @@ const GamePage: React.FC = () => {
   const roundNumber = 1; // TODO: Add round tracking to store
 
   // Simplified implementation without full hooks for now
-  const { markCardCorrect, markCardPassed, endTurn: storeEndTurn } = useGameStore();
+  const { markCardCorrect, markCardPassed, markPenalty, endTurn: storeEndTurn, startTurn: storeStartTurn } = useGameStore();
   
   // Custom drawCard function that uses real cards
   const drawCard = () => {
@@ -82,41 +97,110 @@ const GamePage: React.FC = () => {
   
   // Local state
   const [isPaused, setIsPaused] = useState(false);
+  const [hasStartedTurn, setHasStartedTurn] = useState(false);
   const [turnSummary, setTurnSummary] = useState<any>(null);
   const [gameFlowLoading] = useState(false); // TODO: Implement loading states
   const [isCardRevealed, setIsCardRevealed] = useState(false);
+  const [isFlipping, setIsFlipping] = useState(false);
   const [clueNumber, setClueNumber] = useState(1); // Still track for UI, but use boardBasedClueNumber for actual clue
-  const [showBoard, setShowBoard] = useState(false);
+  // Spiral board removed; no toggle needed
   const [isTimeUp, setIsTimeUp] = useState(false); // Track if timer has ended
+  const [showSettings, setShowSettings] = useState(false);
 
   const language = i18n.language as Language;
   const currentTeamData = currentTeam ? teams[currentTeam] : undefined;
   const currentPlayer = currentTurn ? players[currentTurn.speakerId] : undefined;
   const isCurrentPlayerTurn = currentPlayer?.team === currentTeam;
 
-  // Calculate clue number based on team's board position
-  // Clue number = (position % 8) + 1, so position 0-7 = clue 1-8, position 8-15 = clue 1-8, etc.
-  const calculateClueNumber = (position: number): number => {
-    if (position === 0) return 1; // Start position
-    return ((position - 1) % 8) + 1;
-  };
+  // Get the clue number for current team based on their per-team 1..8 index
+  const legacyMap = (position: number): number => (position === 0 ? 1 : (((position - 1) % 8) + 1));
+  const boardBasedClueNumber = currentTeamData 
+    ? (currentTeamData.wordIndex ?? legacyMap(currentTeamData.position))
+    : 1;
 
-  // Get the clue number for current team based on their board position
-  const boardBasedClueNumber = currentTeamData ? calculateClueNumber(currentTeamData.position) : 1;
-
-  // Initialize game on mount
+  // Navigation safeguard
   useEffect(() => {
     if (!roomCode) {
       navigate('/');
-      return;
+    }
+  }, [roomCode, navigate]);
+
+  // Handler to explicitly start the turn (user-controlled)
+  const handleStartTurn = async () => {
+    if (!roomCode) return;
+
+    // If there's no currentTurn, create one for the first available team
+    if (!currentTurn) {
+      const teamOrder: Array<'red'|'blue'|'green'|'yellow'> = ['red','blue','green','yellow'];
+      const firstTeam = teamOrder.find((c) => (teams as any)[c]?.players?.length > 0);
+      if (firstTeam) {
+        const speakerId = (teams as any)[firstTeam].players[0];
+        try {
+          const { startTurn } = await import('../services/roomService');
+          await startTurn(roomCode, firstTeam, speakerId);
+        } catch (e) {
+          console.warn('Firebase startTurn failed or offline, using local store only', e);
+        }
+        storeStartTurn(firstTeam, speakerId);
+      }
     }
 
-    // Start the first turn if no card is drawn and cards are loaded
-    if (!currentCard && !cardsLoading) {
-      console.log('🎮 Initializing first card...');
-      drawCard();
+    // Reset overlays/state and draw the first card for this turn
+    setIsTimeUp(false);
+    setIsFlipping(false);
+    drawCard();
+    setHasStartedTurn(true);
+  };
+
+  // Auto mode: ensure a turn exists and start it, then draw a card and start timer
+  useEffect(() => {
+    const run = async () => {
+      const turnMode = appSettings?.turnMode || 'manual';
+      if (turnMode !== 'auto' || hasStartedTurn) return;
+
+      // If there is no active turn, create one
+      if (!currentTurn) {
+        const teamOrder: Array<'red'|'blue'|'green'|'yellow'> = ['red','blue','green','yellow'];
+        const firstTeam = teamOrder.find((c) => (teams as any)[c]?.players?.length > 0);
+        if (firstTeam) {
+          const speakerId = (teams as any)[firstTeam].players[0];
+          try {
+            const { startTurn } = await import('../services/roomService');
+            await startTurn(roomCode!, firstTeam as any, speakerId);
+          } catch (e) {
+            console.warn('Firebase startTurn failed or offline, using local store only', e);
+          }
+          storeStartTurn(firstTeam as any, speakerId);
+        }
+      }
+
+      // Draw a card if not yet drawn
+      if (!currentCard) {
+        drawCard();
+      }
+      setHasStartedTurn(true);
+    };
+    run();
+  }, [appSettings?.turnMode, hasStartedTurn, currentTurn?.team, currentCard?.id, roomCode, teams, storeStartTurn]);
+
+  // Keep local currentCard in sync with hook to avoid race conditions
+  useEffect(() => {
+    if (cardFromHook && (!currentCard || currentCard.id !== cardFromHook.id)) {
+      setCurrentCard(cardFromHook);
     }
-  }, [roomCode, currentCard, cardsLoading]);
+  }, [cardFromHook?.id]);
+
+  // Sync global app settings to game store runtime settings (duration, language)
+  useEffect(() => {
+    // Map timerDuration -> turnDuration for the store
+    if (appSettings?.timerDuration && appSettings.timerDuration !== gameSettings.turnDuration) {
+      useGameStore.getState().updateSettings({ turnDuration: appSettings.timerDuration as any });
+    }
+    // Language sync for i18n
+    if (appSettings?.language && i18n.language !== appSettings.language) {
+      i18n.changeLanguage(appSettings.language);
+    }
+  }, [appSettings?.timerDuration, appSettings?.language]);
 
   // Handle card reveal - runs when card ID changes
   useEffect(() => {
@@ -127,6 +211,7 @@ const GamePage: React.FC = () => {
       console.log(`📍 Word to explain: ${currentCard.words?.[boardBasedClueNumber - 1]}`);
       
       // Reset state first
+      setIsFlipping(true);
       setIsCardRevealed(false);
       // DON'T reset clue number - it's based on board position!
       
@@ -177,16 +262,17 @@ const GamePage: React.FC = () => {
   };
 
   const handleSkipAction = async () => {
-    console.log('⏩ Skip button clicked!', { currentCard });
-    markCardPassed();
+    console.log('⏩ Skip card clicked! Counts as penalty (move back 1).', { currentCard });
+    // Skip entire card is a penalty per rules
+    markPenalty();
     drawCard(); // Skip to new card
   };
 
   const handleMistake = async () => {
     console.log('⚠️ Mistake button clicked! Explainer said part of the word', { currentCard });
-    // Mark as mistake (will count as -1 in movement calculation)
-    markCardPassed(); // Use same tracking for now, will separate later
-    drawCard(); // Draw new card
+    // Record penalty (counts as -1 in movement calculation)
+    markPenalty();
+    drawCard(); // Draw new card per rules
   };
 
   const handlePauseToggle = () => {
@@ -198,19 +284,34 @@ const GamePage: React.FC = () => {
     navigate('/');
   };
 
-  const handleNextTurn = () => {
+  const handleNextTurn = async () => {
     setTurnSummary(null);
-    setIsTimeUp(false); // Reset timer flag for next turn
-    drawCard(); // Start new turn with new card
+    setIsTimeUp(false);
+    setHasStartedTurn(false);
+
+    // Determine next team and explainer
+    const currentTeamColor = currentTurn?.team || (Object.keys(teams)[0] as any);
+    const nextTeam = getNextTeam(currentTeamColor as any, teams as any);
+    const currentSpeaker = currentTurn?.speakerId || ((teams as any)[nextTeam]?.players?.[0] || '');
+    const nextSpeaker = getNextSpeaker(nextTeam as any, players as any, currentSpeaker);
+
+    try {
+      const { startTurn } = await import('../services/roomService');
+      await startTurn(roomCode!, nextTeam as any, nextSpeaker);
+    } catch (e) {
+      console.warn('Firebase startTurn failed or offline, using local store only', e);
+    }
+    storeStartTurn(nextTeam as any, nextSpeaker);
+
+    // New card for the new turn
+    drawCard();
   };
 
   const handleTimerComplete = () => {
     console.log('⏰ Time is up! Disabling buttons...');
     setIsTimeUp(true);
-    // Automatically end turn when time runs out
-    setTimeout(() => {
-      endTurn();
-    }, 1000); // Give 1 second to see "TIME UP" message
+    // End the turn now; user will press "Next Turn" in the summary to continue
+    endTurn();
   };
 
   const endTurn = async () => {
@@ -220,9 +321,10 @@ const GamePage: React.FC = () => {
     }
 
     const cardsWon = currentTurn.cardsWon || 0;
-    const cardsPassed = currentTurn.cardsPassed || 0;
+    const cardsPassed = currentTurn.cardsPassed || 0; // informational only
     const penalties = currentTurn.penalties || 0;
-    const movement = Math.max(0, cardsWon - penalties);
+    // Movement according to rules: cardsWon - penalties (Pass gives 0; Skip is a penalty)
+    const movement = cardsWon - penalties;
 
     // Show turn summary
     setTurnSummary({
@@ -231,6 +333,7 @@ const GamePage: React.FC = () => {
       penalties,
       movement,
     });
+    setHasStartedTurn(false);
 
     // Update Firebase
     try {
@@ -259,7 +362,7 @@ const GamePage: React.FC = () => {
         timeRemaining={currentTurn?.timeRemaining || 0}
         isPaused={isPaused}
         onPauseToggle={handlePauseToggle}
-        onShowSettings={() => console.log('Show settings')}
+        onShowSettings={() => setShowSettings(true)}
         onLeaveGame={handleLeaveGame}
       />
 
@@ -268,7 +371,7 @@ const GamePage: React.FC = () => {
         {/* Main Game Area */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          {/* Left Column - Score & Board Toggle */}
+          {/* Left Column - Score */}
           <div className="space-y-4">
             <ScoreBoard
               teams={Object.values(teams)}
@@ -276,65 +379,48 @@ const GamePage: React.FC = () => {
               players={players}
               isCompact={false}
               showProgress={true}
-              maxScore={100}
+              maxScore={appSettings?.targetScore || 100}
             />
-
-            <motion.button
-              onClick={() => setShowBoard(!showBoard)}
-              className="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <div className="flex items-center justify-center space-x-2">
-                <span className="text-xl">🎯</span>
-                <span>{showBoard ? t('game.hideBoard', 'Hide Board') : t('game.showBoard', 'Show Board')}</span>
-              </div>
-            </motion.button>
           </div>
           {/* Center Column - Game Card & Actions */}
           <div className="space-y-6">
             {/* YOUR TURN Banner */}
-            {currentTeam && (
+            {currentTurn && (
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
+                className="text-center p-4 rounded-2xl bg-white shadow"
+                initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`
-                  bg-gradient-to-r ${
-                    currentTeam === 'red' ? 'from-red-500 to-red-600' :
-                    currentTeam === 'blue' ? 'from-blue-500 to-blue-600' :
-                    currentTeam === 'green' ? 'from-green-500 to-green-600' :
-                    'from-yellow-500 to-yellow-600'
-                  }
-                  text-white font-bold text-2xl py-4 px-6 rounded-xl shadow-lg text-center
-                `}
               >
-                <div className="flex items-center justify-center gap-3">
-                  <span className="text-3xl">
-                    {currentTeam === 'red' ? '🔴' :
-                     currentTeam === 'blue' ? '🔵' :
-                     currentTeam === 'green' ? '🟢' : '🟡'}
-                  </span>
-                  <span>
-                    {currentTeamData?.name || t(`teams.${currentTeam}`, currentTeam.toUpperCase())} - {t('game.yourTurn', 'YOUR TURN!')}
-                  </span>
-                  <motion.span
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  >
-                    ⏰
-                  </motion.span>
+                <div className="text-lg font-extrabold text-purple-700">
+                  {t('game.yourTurn', 'YOUR TURN!')}
+                </div>
+                <div className="text-sm text-gray-700 mt-1">
+                  {currentTeamData?.name} · {t('game.explainer', 'Explainer')}: {currentPlayer?.name || '-'}
                 </div>
               </motion.div>
             )}
 
             {/* Timer */}
-            <div className="flex justify-center">
-              <Timer
-                duration={gameSettings.turnDuration}
-                onComplete={handleTimerComplete}
-                size="large"
-              />
-            </div>
+            {/* Start Turn gate and Timer */}
+            {!hasStartedTurn && (
+              <div className="text-center">
+                <button
+                  onClick={handleStartTurn}
+                  className="px-6 py-3 bg-green-600 text-white font-bold rounded-xl shadow hover:bg-green-700"
+                >
+                  Start Turn
+                </button>
+              </div>
+            )}
+
+            <Timer
+              duration={gameSettings.turnDuration}
+              onComplete={handleTimerComplete}
+              autoStart={appSettings?.turnMode === 'auto' && hasStartedTurn}
+              syncKey={`${roomCode || 'local'}-${currentTurn?.team || 'none'}`}
+              size="large"
+              styleVariant={appSettings?.timerStyle === 'sandglass' ? 'sandglass' : 'ring'}
+            />
 
             {/* Game Card */}
             <GameCard
@@ -342,29 +428,20 @@ const GamePage: React.FC = () => {
               clueNumber={boardBasedClueNumber}
               language={language}
               isRevealed={isCardRevealed}
-              isFlipping={gameFlowLoading}
+              isFlipping={isFlipping}
+              onFlipComplete={() => setIsFlipping(false)}
             />
 
             {/* Action Buttons */}
             <ActionButtons
-              onCorrect={() => {
-                console.log('🔘 Correct button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
-                handleCorrect();
-              }}
-              onSkip={() => {
-                console.log('🔘 Skip button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
-                handleSkipAction();
-              }}
-              onMistake={() => {
-                console.log('🔘 Mistake button clicked! isCardRevealed:', isCardRevealed, 'disabled:', !isCardRevealed || gameFlowLoading || isTimeUp);
-                handleMistake();
-              }}
-              onEndTurn={endTurn}
-              disabled={!isCardRevealed || gameFlowLoading || isTimeUp}
-              turnMode="manual"
-              isCurrentPlayerTurn={isCurrentPlayerTurn}
+              onCorrect={handleCorrect}
+              onSkip={handlePassAction}
+              onMistake={handleMistake}
+              onEndTurn={async () => { await endTurn(); }}
+              disabled={isTimeUp || !currentCard || !isCardRevealed}
+              turnMode={"auto"}
+              isCurrentPlayerTurn={true}
               currentTeamName={currentTeamData?.name}
-              loading={gameFlowLoading}
             />
           </div>
 
@@ -376,6 +453,7 @@ const GamePage: React.FC = () => {
               players={players}
               isCompact={true}
               showProgress={false}
+              maxScore={appSettings?.targetScore || 100}
             />
           </div>
 
@@ -389,7 +467,7 @@ const GamePage: React.FC = () => {
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{t('game.currentClue', 'Current Clue')}:</span>
-                  <span className="font-semibold">{clueNumber}/6</span>
+                  <span className="font-semibold">{boardBasedClueNumber}/8</span>
                 </div>
                 
                 <div className="flex justify-between">
@@ -417,13 +495,6 @@ const GamePage: React.FC = () => {
               
               <div className="space-y-2">
                 <button
-                  onClick={() => setShowBoard(!showBoard)}
-                  className="w-full py-2 px-4 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors text-sm font-medium"
-                >
-                  {showBoard ? '🎯 Hide Board' : '🎯 Show Board'}
-                </button>
-                
-                <button
                   onClick={() => console.log('Show settings')}
                   className="w-full py-2 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
                 >
@@ -434,35 +505,7 @@ const GamePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Game Board (Collapsible) */}
-        <AnimatePresence>
-          {showBoard && (
-            <motion.div
-              className="bg-white rounded-2xl shadow-lg p-6"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-gray-800">
-                  {t('game.gameBoard', 'Game Board')}
-                </h3>
-                <button
-                  onClick={() => setShowBoard(false)}
-                  className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
-                >
-                  ✕
-                </button>
-              </div>
-              
-              <SpiralBoard
-                teams={teams}
-                currentTeam={currentTeam}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Board UI removed; scoreboard shows the 1..8 index per team */}
       </div>
 
       {/* Turn Summary Modal */}
@@ -479,7 +522,7 @@ const GamePage: React.FC = () => {
       />
 
       {/* Settings Modal */}
-      {/* TODO: Implement SettingsModal component */}
+      <InGameSettingsModal isOpen={showSettings} onClose={() => setShowSettings(false)} />
       
       {/* Loading Overlay */}
       {gameFlowLoading && (

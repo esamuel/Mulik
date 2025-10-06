@@ -22,8 +22,7 @@ const HomePage: React.FC<HomePageProps> = ({ currentLanguage, onLanguageChange }
   };
 
   const handleLocalPlay = () => {
-    // TODO: Navigate to local play page
-    console.log('Local Play clicked');
+    navigate('/game/local');
   };
 
   const handleSettings = () => {
@@ -97,12 +96,14 @@ const HomePage: React.FC<HomePageProps> = ({ currentLanguage, onLanguageChange }
           {/* Hero Section */}
           <div className="text-center mb-12">
             <motion.h1
-              className="mulik-text-gradient font-bold text-4xl md:text-6xl mb-4"
+              className="font-extrabold text-white text-5xl md:text-7xl mb-4 drop-shadow-[0_8px_24px_rgba(0,0,0,0.55)]"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              {t('home.title')}
+              <span className="px-5 py-2 rounded-2xl bg-black/20 backdrop-blur-sm">
+                {t('home.title')}
+              </span>
             </motion.h1>
             <motion.p
               className="text-white/90 text-xl md:text-2xl font-medium"
@@ -136,8 +137,6 @@ const HomePage: React.FC<HomePageProps> = ({ currentLanguage, onLanguageChange }
             <motion.button
               onClick={handleJoinGame}
               className="w-full mulik-button-secondary flex items-center justify-center gap-3 text-lg"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
             >
               <span className="text-2xl">🔗</span>
               <span>{t('home.joinGame')}</span>
@@ -147,22 +146,13 @@ const HomePage: React.FC<HomePageProps> = ({ currentLanguage, onLanguageChange }
             <motion.button
               onClick={handleLocalPlay}
               className="w-full mulik-button-secondary flex items-center justify-center gap-3 text-lg"
+              title={t('home.localPlay', 'Local Play')}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <span className="text-2xl">📱</span>
-              <span>{t('home.localPlay')}</span>
+              <span>{t('home.localPlay', 'Local Play')}</span>
             </motion.button>
-          </motion.div>
-
-          {/* Game Icon */}
-          <motion.div
-            className="text-center mt-8"
-            initial={{ opacity: 0, rotate: -10 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            transition={{ duration: 1, delay: 1.2 }}
-          >
-            <span className="text-6xl">🎮</span>
           </motion.div>
         </motion.div>
       </main>

@@ -16,8 +16,15 @@ export interface Team {
   color: TeamColor;
   name: string;
   players: string[]; // Player IDs
-  position: number;
+  position: number; // legacy board position (spiral) - not used for word selection
+  wordIndex?: number; // 1..8 index indicating which word to use on cards
   score: number;
+  // Last turn summary (for UI display on team cards)
+  lastMovement?: number; // positive or negative movement applied at end of last turn
+  lastCardsWon?: number;
+  lastPassed?: number;
+  lastPenalties?: number;
+  lastUpdated?: number; // timestamp when last turn finished
 }
 
 export type Category = 'general' | 'movies' | 'places' | 'food' | 'animals' | 'technology';
@@ -58,10 +65,15 @@ export interface SpaceConfig {
 
 export interface Settings {
   language: Language;
-  theme: 'modern' | 'cartoon';
+  theme: 'modern' | 'cartoon' | 'dark' | 'high-contrast' | 'colorblind';
   timerDuration: 30 | 60 | 90 | 120;
   turnMode: 'auto' | 'manual';
   soundEnabled: boolean;
+  // UI variant for timer visualization
+  timerStyle?: 'ring' | 'sandglass';
+  cardDifficulty?: 'easy' | 'mixed' | 'hard';
+  targetScore?: 50 | 100 | 150;
+  volume?: number; // 0..1
 }
 
 export interface GameAction {

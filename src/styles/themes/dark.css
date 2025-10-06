@@ -1,0 +1,13 @@
+.theme-dark {
+  --primary: #6366F1;
+  --secondary: #F472B6;
+  --background: #0F172A;
+  --surface: #111827;
+  --text: #E5E7EB;
+  --text-secondary: #9CA3AF;
+  --border: #374151;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+}

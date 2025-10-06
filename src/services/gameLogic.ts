@@ -8,11 +8,13 @@ import type { TeamColor, Player, Team, SpaceConfig } from '../types/game.types';
  * @returns The number of spaces to move (can be negative)
  */
 export const calculateMovement = (
-  cardsWon: number, 
-  cardsPassed: number, 
+  cardsWon: number,
+  _cardsPassed: number,
   penalties: number
 ): number => {
-  return cardsWon - cardsPassed - penalties;
+  // Movement per rules: correct guesses minus penalties.
+  // Pass gives 0 points/movement and should not reduce movement.
+  return cardsWon - penalties;
 };
 
 /**

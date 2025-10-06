@@ -1,0 +1,15 @@
+.theme-cartoon {
+  --primary: #FF6B6B;
+  --secondary: #4ECDC4;
+  --background: #FFE66D;
+  --surface: #FFFFFF;
+  --text: #2C3E50;
+  --text-secondary: #5A6C7D;
+  --border: #2C3E50;
+  --success: #51CF66;
+  --warning: #FFD43B;
+  --error: #FF6B6B;
+  --shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive;
+  border-radius: 20px !important;
+}

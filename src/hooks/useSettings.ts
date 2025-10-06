@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { soundService } from '../services/soundService';
 import type { Settings } from '../types/game.types';
 
 const DEFAULT_SETTINGS: Settings = {
@@ -7,6 +8,10 @@ const DEFAULT_SETTINGS: Settings = {
   timerDuration: 60,
   turnMode: 'auto',
   soundEnabled: true,
+  timerStyle: 'ring',
+  cardDifficulty: 'mixed',
+  targetScore: 100,
+  volume: 1,
 };
 
 const STORAGE_KEY = 'mulik-settings';
@@ -20,7 +25,30 @@ export const useSettings = () => {
       const savedSettings = localStorage.getItem(STORAGE_KEY);
       if (savedSettings) {
         const parsedSettings = JSON.parse(savedSettings);
-        setSettings({ ...DEFAULT_SETTINGS, ...parsedSettings });
+        const merged = { ...DEFAULT_SETTINGS, ...parsedSettings } as Settings;
+        setSettings(merged);
+        // Apply theme class on load
+        try {
+          document.body.classList.remove(
+            'theme-modern',
+            'theme-cartoon',
+            'theme-dark',
+            'theme-high-contrast',
+            'theme-colorblind'
+          );
+          document.body.classList.add(`theme-${merged.theme}`);
+        } catch {}
+
+        // Initialize sound and apply mute/volume
+        try {
+          soundService.init();
+          soundService.setVolume(merged.volume ?? 1);
+          if (merged.soundEnabled === false) {
+            soundService.mute();
+          } else {
+            soundService.unmute();
+          }
+        } catch {}
       }
     } catch (error) {
       console.error('Failed to load settings from localStorage:', error);

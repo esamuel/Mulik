@@ -1,3 +1,10 @@
+/* Theme files must come before any other statements */
+@import './styles/themes/modern.css';
+@import './styles/themes/cartoon.css';
+@import './styles/themes/dark.css';
+@import './styles/themes/high-contrast.css';
+@import './styles/themes/colorblind.css';
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -18,6 +25,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--background, #ffffff);
+  color: var(--text, #111827);
 }
 
 /* MULIK Theme Classes */
@@ -33,7 +42,10 @@ body {
 }
 
 .mulik-button-primary {
-  @apply bg-gradient-to-r from-mulik-primary-500 to-mulik-primary-600 hover:from-mulik-primary-600 hover:to-mulik-primary-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
+  /* Override Tailwind gradient with theme primary */
+  background: var(--primary, #8B5CF6);
+  color: #fff;
+  @apply font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200;
 }
 
 .mulik-button-secondary {
@@ -41,7 +53,9 @@ body {
 }
 
 .mulik-card {
-  @apply bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl p-8;
+  background: color-mix(in srgb, var(--surface, #ffffff) 95%, transparent);
+  @apply backdrop-blur-sm rounded-xl p-8;
+  box-shadow: var(--shadow, 0 10px 15px -3px rgba(0,0,0,0.1));
 }
 
 /* RTL Support */

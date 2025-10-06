@@ -26,7 +26,14 @@
     "off": "Off",
     "seconds": "seconds",
     "autoModeInfo": "Turns advance automatically after timer expires",
-    "manualModeInfo": "Players manually advance turns when ready"
+    "manualModeInfo": "Players manually advance turns when ready",
+    "cardDifficulty": "Words difficulty",
+    "easy": "Easy",
+    "mixed": "Mixed",
+    "hard": "Hard",
+    "cardDifficultyHintEasy": "Simpler words suitable for younger players",
+    "cardDifficultyHintMixed": "A balanced mix of easy and hard words",
+    "cardDifficultyHintHard": "Challenging words; may include two-word phrases"
   },
   "rooms": {
     "createGame": "Create Game",
